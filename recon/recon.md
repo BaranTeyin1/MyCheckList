@@ -8,9 +8,6 @@
 # Subfinder
 subfinder -d example.com -all -silent > subfinder.txt
 
-# Amass (passive mode)
-amass enum -passive -d example.com -o amass.txt
-
 # Assetfinder
 assetfinder --subs-only example.com > assetfinder.txt
 
@@ -22,7 +19,7 @@ puredns bruteforce brute_subs.txt example.com -r resolvers.txt > puredns
 ```
 
 # Subdomain’leri Birleştir ve Temizle
-cat subfinder.txt amass.txt assetfinder.txt puredns.txt findomain.txt | sort -u > all_subdomains.txt
+cat subfinder.txt assetfinder.txt puredns.txt findomain.txt | sort -u > all_subdomains.txt
 
 
 ## Live Host Identification
