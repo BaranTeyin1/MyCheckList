@@ -19,8 +19,9 @@ puredns bruteforce brute_subs.txt example.com -r resolvers.txt > puredns
 ```
 
 # Subdomain’leri Birleştir ve Temizle
+```bash
 cat subfinder.txt assetfinder.txt puredns.txt findomain.txt | sort -u > all_subdomains.txt
-
+```
 
 ## Live Host Identification
 
