@@ -15,7 +15,7 @@ assetfinder --subs-only example.com > assetfinder.txt
 findomain -t example.com -q > findomain.txt
 
 # Puredns (bruteforce)
-puredns bruteforce brute_subs.txt example.com -r resolvers.txt > puredns
+puredns bruteforce brute_subs.txt example.com -r resolvers.txt > puredns.txt
 ```
 
 # Subdomain’leri Birleştir ve Temizle
