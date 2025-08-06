@@ -52,8 +52,8 @@ function reqListener() {
 # Origin Header'larının Ayrıştırılmasında Hatalar
 Bazı uygulamalar, birden fazla origin'e erişimi desteklemek için whitelist kullanır.
 
-```http
 Örneğin uygulama aşağıdaki gibi istek alır:
+```http
 GET /data HTTP/1.1
 Host: normal-website.com
 Origin: https://innocent-website.com
