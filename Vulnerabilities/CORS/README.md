@@ -104,4 +104,4 @@ function reqListener() {
 </iframe>
 ```
 
-Bu teknikle Origin: null ile yapılan istek, sunucu tarafından kabul edilirse, oturum tanımlı isteklerle hassas veriler sızdırılabilir.---
+Bu teknikle Origin: null ile yapılan istek, sunucu tarafından kabul edilirse, oturum tanımlı isteklerle hassas veriler sızdırılabilir.
