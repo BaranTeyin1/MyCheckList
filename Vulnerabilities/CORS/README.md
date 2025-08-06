@@ -108,5 +108,7 @@ Bu teknikle Origin: null ile yapılan istek, sunucu tarafından kabul edilirse, 
 
 Referanslar:
 https://portswigger.net/web-security/cors
-
 https://aws.amazon.com/tr/what-is/cross-origin-resource-sharing/
+
+Tools:
+https://github.com/chenjj/CORScanner.git
