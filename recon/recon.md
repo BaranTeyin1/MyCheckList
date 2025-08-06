@@ -23,7 +23,7 @@ puredns bruteforce brute_subs.txt example.com -r resolvers.txt > puredns.txt
 cat subfinder.txt assetfinder.txt puredns.txt findomain.txt | sort -u > all_subdomains.txt
 ```
 
-## Live Host Identification
+## Live Host Tespiti
 
 ```bash
 # HTTP servislerini dinleyen subdomain'leri tespit et
