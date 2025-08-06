@@ -1,5 +1,5 @@
 # CORS nedir?
-CORS, SOP kısıtlamasını esnetmek için geliştirilmiş bir mekanizmadır. Tarayıcılar bir web uygulamasının kendi origin'i dışındaki bir origin'e doğrudan istek göndermesini engeller. Ancak bu günümüzde oldukça fazla gerekli olur (örnek: Frontend:example.com, API: api.example.com)
+CORS, SOP kısıtlamasını esnetmek için geliştirilmiş bir mekanizmadır. Tarayıcılar bir web uygulamasının kendi origin'i dışındaki bir origin'e doğrudan istek göndermesini engeller. Ancak bu günümüzde oldukça fazla gerekli olur (örnek: Frontend: example.com, API: api.example.com)
 
 # Origin nedir?
 Bir origin şu 3 parçadan oluşur:
