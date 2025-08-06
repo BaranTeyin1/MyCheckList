@@ -31,6 +31,7 @@ HTTP/1.1 200 OK
 Access-Control-Allow-Origin: https://malicious-website.com  
 Access-Control-Allow-Credentials: true  
 ...
+```
 
 Bu header’lar, isteğin geldiği domain olan malicious-website.com alanına erişim izni verildiğini, ayrıca çerez gibi kimlik doğrulama bilgileri içeren isteklerin de kabul edildiğini belirtir (Access-Control-Allow-Credentials: true). Bu, işlemin kullanıcının oturumunda gerçekleşmesini sağlar.
 
