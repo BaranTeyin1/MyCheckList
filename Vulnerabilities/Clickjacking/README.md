@@ -40,3 +40,22 @@ ClickJacking saldırıları, css kullanılarak katmanlar oluşturma ve katmanlar
 Bu örnekte, hedef web sitesine ait iframe, tarayıcı içinde hedef eylem ile sahte sitedeki öğe ile çakışacak şekilde hizalanır. Ekran boyutu, tarayıcı türü ve platformdan bağımsız olarak tutarlı hizalama sağlamak için obsolute ve relative pozisyon değerleri kullanılır.
 z-index ise iframe ve diğer katmanların hangi sırayla üst üste bindirileceğini belirler.
 opacity (saydamlık) değeri 0.0 (veya 0.00001 gibi çok düşük bir değer) yapılarak iframe tamamen görünmez hale getirilir.
+
+# Clickjacking'i Önlemek
+Clickjacking saldırıları hedef site sadece iframe içerisinde gösterilebildiği sürece mümkündür. Bu yüzden, önleyici teknikler genellikle web sitelerinin iframe içinde gösterilmesini engellemeye dayanır. Yaygın bir istemci tarafı koruma yöntemi, tarayıcıda çalışan frame busting script’lerinin kullanılmasıdır. Bunlar, NoScript gibi tarayıcıya özel JavaScript eklentileri ya da uzantılarla uygulanabilir. Bu script’ler genellikle aşağıdaki davranışlardan bazılarını veya tamamını gerçekleştirir:
+
+    - Mevcut uygulama penceresinin ana ya da en üst pencere olduğunu kontrol etmek ve bunu zorunlu kılmak,
+
+    - Tüm iframe’leri görünür yapmak,
+
+    - Görünmez iframe’ler üzerindeki tıklamaları engellemek,
+
+    - Potansiyel clickjacking saldırılarını yakalayıp kullanıcıya bildirmek
+
+Frame busting'i bypasslamak için kullanılan bir yöntem HTML5'in iframe sandbox özelliğini kullanmaktır.
+
+```html
+<iframe id="victim_website" src="https://victim-website.com" sandbox="allow-forms"></iframe>
+```
+
+Hem allow-forms hem de allow-scripts değerleri iframe içinde belirtilen işlemlere izin verirken, en üst seviye navigasyon engellenir.
