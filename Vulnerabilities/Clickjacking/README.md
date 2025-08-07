@@ -101,4 +101,5 @@ Content-Security-Policy: frame-ancestors normal-website.com;
 
 Referanslar:
 https://portswigger.net/web-security/clickjacking
+
 https://www.intigriti.com/researchers/hackademy/clickjacking
