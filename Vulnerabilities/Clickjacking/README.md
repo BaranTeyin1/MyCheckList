@@ -63,7 +63,7 @@ Clickjacking saldırıları hedef site sadece iframe içerisinde gösterilebildi
 
 Frame busting'i bypasslamak için kullanılan bir yöntem HTML5'in iframe sandbox özelliğini kullanmaktır. Bu istemci tarafı bir önlemdir. Sunucu tarafında clickjacking’e karşı iki temel koruma mekanizması vardır: X-Frame-Options ve Content Security Policy (CSP).
 
-# X-Frame-Options
+## X-Frame-Options
 Bu header, web site sahibine iframe veya object etiketleriyle sayfanın başka bir sayfa içinde gösterilip gösterilemeyeceği konusunda kontrol sağlar.
 
 Aşağıdaki direktif ile sayfanın iframe içinde gösterilmesi tamamen yasaklanabilir:
@@ -81,6 +81,22 @@ Veya sadece belirli bir domain’e izin verilerek şu şekilde sınırlandırıl
 
 ```http
 X-Frame-Options: allow-from https://normal-website.com
+```
+## CSP
+Content Security Policy (CSP), XSS ve clickjacking gibi saldırılara karşı algılama ve önleme sağlayan bir güvenlik mekanizmasıdır. Clickjacking'e karşı önerilen koruma yöntemi, uygulamanın CSP’sine frame-ancestors direktifini dahil etmektir:
+- frame-ancestors 'none'; → X-Frame-Options: deny ile aynı işlevi görür.
+- frame-ancestors 'self'; → X-Frame-Options: sameorigin ile yaklaşık olarak eşdeğerdir.
+
+Örneğin, sadece aynı domain içinde çerçevelemeye izin veren CSP şu şekildedir:
+
+```http
+Content-Security-Policy: frame-ancestors 'self';
+```
+
+Alternatif olarak, yalnızca belirli sitelerin sayfayı iframe içinde göstermesine izin verilebilir:
+
+```http
+Content-Security-Policy: frame-ancestors normal-website.com;
 ```
 
 Referanslar:
