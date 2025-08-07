@@ -44,13 +44,13 @@ opacity (saydamlık) değeri 0.0 (veya 0.00001 gibi çok düşük bir değer) ya
 # Clickjacking'i Önlemek
 Clickjacking saldırıları hedef site sadece iframe içerisinde gösterilebildiği sürece mümkündür. Bu yüzden, önleyici teknikler genellikle web sitelerinin iframe içinde gösterilmesini engellemeye dayanır. Yaygın bir istemci tarafı koruma yöntemi, tarayıcıda çalışan frame busting script’lerinin kullanılmasıdır. Bunlar, NoScript gibi tarayıcıya özel JavaScript eklentileri ya da uzantılarla uygulanabilir. Bu script’ler genellikle aşağıdaki davranışlardan bazılarını veya tamamını gerçekleştirir:
 
-    - Mevcut uygulama penceresinin ana ya da en üst pencere olduğunu kontrol etmek ve bunu zorunlu kılmak,
+- Mevcut uygulama penceresinin ana ya da en üst pencere olduğunu kontrol etmek ve bunu zorunlu kılmak,
 
-    - Tüm iframe’leri görünür yapmak,
+- Tüm iframe’leri görünür yapmak,
 
-    - Görünmez iframe’ler üzerindeki tıklamaları engellemek,
+- Görünmez iframe’ler üzerindeki tıklamaları engellemek,
 
-    - Potansiyel clickjacking saldırılarını yakalayıp kullanıcıya bildirmek
+- Potansiyel clickjacking saldırılarını yakalayıp kullanıcıya bildirmek
 
 Frame busting'i bypasslamak için kullanılan bir yöntem HTML5'in iframe sandbox özelliğini kullanmaktır.
 
