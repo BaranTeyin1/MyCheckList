@@ -82,3 +82,7 @@ Veya sadece belirli bir domain’e izin verilerek şu şekilde sınırlandırıl
 ```http
 X-Frame-Options: allow-from https://normal-website.com
 ```
+
+Referanslar:
+https://portswigger.net/web-security/clickjacking
+https://www.intigriti.com/researchers/hackademy/clickjacking
