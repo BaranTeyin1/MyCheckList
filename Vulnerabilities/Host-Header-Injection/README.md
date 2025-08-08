@@ -33,7 +33,7 @@ Tanımlı olmayan bir alan adı gönderip uygulamanın buna nasıl yanıt verdi�
 Bazen "Invalid Host header" yerine, başka bir güvenlik önlemi nedeniyle isteğin engellenebilir.
 Örneğin, bazı uygulamalar Host header’ın, TLS el sıkışması sırasında iletilen SNI (Server Name Indication) ile uyumlu olup olmadığını kontrol eder. Bu, sitenin tamamen güvenli olduğu anlamına gelmez. Örneğin:
 
-    - Port manipülasyonu: Bazı algoritmalar port kısmını göz ardı eder ve sadece domain’i doğrular. Eğer numeric olmayan bir port kullanırsan, domain değişmeden kalır ama payload’ını porta enjekte edebilirsin.
+- Port manipülasyonu: Bazı algoritmalar port kısmını göz ardı eder ve sadece domain’i doğrular. Eğer numeric olmayan bir port kullanırsan, domain değişmeden kalır ama payload’ını porta enjekte edebilirsin.
 
 ## Çelişkili HTTP İstekleri Gönderme
 Çoğu zaman Host header'ı doğrulayan kod ile işleyen kod farklı sunucularda bulunur. Bu durum, aynı isteğin farklı sistemler tarafından farklı yorumlanmasına neden olabilir.
