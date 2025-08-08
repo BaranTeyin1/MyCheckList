@@ -78,9 +78,9 @@ X-Forwarded-Host: bad-stuff-here
 ```
 
 Aynı amacı taşıyan diğer başlıklarlı da deneyebilirsiniz:
-    - X-Host
-    - X-Forwarded-Server
-    - X-HTTP-Host-Override
-    - Forwarded
+- X-Host
+- X-Forwarded-Server
+- X-HTTP-Host-Override
+- Forwarded
 
 # HTTP Host Header Zafiyetleri Nasıl İstismar Edilir?
