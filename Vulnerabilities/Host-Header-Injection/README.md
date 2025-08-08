@@ -15,7 +15,7 @@ Host Header Injection saldırsı Host header'ının güvensiz işlenmesinden kay
 <a href="https://$_SERVER['HOST']/support">Contact support</a>
 ```
 
-Eğer bu giriş uygun şekilde doğrulanmaz veya kaçış yapılmazsa, bir çok zafiyet türürnün istismanrı mümhün hale gelir.
+Eğer bu giriş uygun şekilde doğrulanmaz veya kaçış yapılmazsa, bir çok zafiyet türürnün istismarı mümkün hale gelir.
 
 # Host Header Injection Zafiyetleri Nasıl Ortaya Çıkar
 Bir saldırgan, örneğin Burp Proxy gibi araçlar kullanarak bu header’ı kolayca değiştirebilir.
@@ -77,10 +77,31 @@ Host: vulnerable-website.com
 X-Forwarded-Host: bad-stuff-here
 ```
 
-Aynı amacı taşıyan diğer başlıklarlı da deneyebilirsiniz:
+Aynı amacı taşıyan diğer başlıkları da deneyebilirsiniz:
 - X-Host
 - X-Forwarded-Server
 - X-HTTP-Host-Override
 - Forwarded
 
 # HTTP Host Header Zafiyetleri Nasıl İstismar Edilir?
+## Host Header Üzerinden Web Cache Poisoning
+Host header ile ilgili zafiyet araştırmaları sırasında bazen görünüşte zafiyetli ama doğrudan istismar edilemeyen davranışlar olabilir.
+Örneğin, host header değeri response içinde encode edilmeden yansıtılıyor olabilir. Bu tip yansıtılmış client-side zafiyetler (örneğin XSS), Host header yoluyla tetiklenemez. Çünkü bir saldırganın mağdurun tarayıcısını farklı bir Host header göndermeye zorlaması mümkün değildir. Ancak eğer hedefte web cache kullanılıyorsa, bu önemsiz gibi görünen yansıyan zafiyeti, tehlikeli bir stored zafiyete çevirebilirsin.
+Yani: cache’i zehirleyerek, diğer kullanıcılara kötü niyetli response’ların sunulmasını sağlayabilirsin. Örneğin:
+
+```http
+GET / HTTP/1.1
+Host: "><img src=x onerror=alert(document.cookie)>
+```
+
+# Klasik Sunucu Tarafı Zafiyetlerin İstismarı
+Her HTTP header, klasik sunucu tarafı zafiyetlerin istismarı için potansiyel bir saldırı vektörüdür — Host header da bir istisna değildir.
+Bu nedenle, SQL injection gibi klasik zafiyetlere yönelik test teknikleri Host header üzerinden de denenebilir.
+
+# Yönlendirme Tabanlı SSRF
+Klasik SSRF zafiyetleri genellikle XXE veya kullanıcı kontrollü girdiden türetilen URL’lere gönderilen HTTP istekleri üzerinden gerçekleşir.
+Routing-based SSRF ise, çoğunlukla bulut mimarilerinde yaygın olan ara bileşenleri (reverse proxy, load balancer vs.) istismar etmeye dayanır. Bu bileşenler genellikle gelen istekleri alır ve uygun back-end sunucuya yönlendirir.
+
+# HTTP Host Header Saldırıları Nasıl Önlenir?
+
+HTTP Host header saldırılarını önlemek için en basit ve etkili yaklaşım, sunucu tarafı kodlarda Host header kullanımından tamamen kaçınmaktır. Host header’ı kullanmanız gerekiyorsa mutlaka whitelist ile doğrulayın. Sadece izin verilen domain'ler üzerinden gelen istekleri kabul edin. Örneğin Django'da bu iş için ALLOWED_HOSTS yapılandırması kullanılır. Özellikle X-Forwarded-Host gibi alternatif header’ların varsayılan olarak aktif olabileceğini unutmayın. Bunların sunucu veya framework seviyesinde desteklenip desteklenmediğini kontrol edin ve gerekiyorsa devre dışı bırakın.
