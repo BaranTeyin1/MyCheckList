@@ -2,7 +2,7 @@
 Bu repo, uygulama güvenliğinde öğrendiğim şeyleri unutmamak ve  sistematik ilerlemek için oluşturuldu.
 
 ## 📂 Vulnerabilities
-- [CORS](./vulnerabilities/cors/README.md)
+- [CORS](./vulnerabilities/CORS/README.md)
 - [Clickjacking](./vulnerabilities/clickjacking/README.md)
 - [Host Header Injection](./vulnerabilities/host-header-injection/README.md)
 
