@@ -3,8 +3,8 @@ Bu repo, uygulama güvenliğinde öğrendiğim şeyleri unutmamak ve  sistematik
 
 ## 📂 Vulnerabilities
 - [CORS](./Vulnerabilities/CORS/README.md)
-- [Clickjacking](./Vulnerabilities/clickjacking/README.md)
-- [Host Header Injection](./Vulnerabilities/host-header-injection/README.md)
+- [Clickjacking](./Vulnerabilities/Clickjacking/README.md)
+- [Host Header Injection](./Vulnerabilities/Host-Header-Injection/README.md)
 
   ## 📂 Recon
 - [Recon Cheat Sheet](./recon/recon.md)
