@@ -105,3 +105,7 @@ Routing-based SSRF ise, çoğunlukla bulut mimarilerinde yaygın olan ara bileş
 # HTTP Host Header Saldırıları Nasıl Önlenir?
 
 HTTP Host header saldırılarını önlemek için en basit ve etkili yaklaşım, sunucu tarafı kodlarda Host header kullanımından tamamen kaçınmaktır. Host header’ı kullanmanız gerekiyorsa mutlaka whitelist ile doğrulayın. Sadece izin verilen domain'ler üzerinden gelen istekleri kabul edin. Örneğin Django'da bu iş için ALLOWED_HOSTS yapılandırması kullanılır. Özellikle X-Forwarded-Host gibi alternatif header’ların varsayılan olarak aktif olabileceğini unutmayın. Bunların sunucu veya framework seviyesinde desteklenip desteklenmediğini kontrol edin ve gerekiyorsa devre dışı bırakın.
+
+Referanslar:
+- https://portswigger.net/web-security/host-header
+- https://www.youtube.com/watch?v=I6LZ6e5O-Ao
