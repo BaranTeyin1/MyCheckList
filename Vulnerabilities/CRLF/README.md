@@ -23,7 +23,7 @@ Content-Length: 39
 <script>alert(document.cookie)</script>
 ```
 
-# Open Redirect
+# Open Redirection
 Kullanıcı girdisi, Location header’ında kullanılıyorsa, CRLF enjekte edilerek saldırgan yeni bir Location header ekleyebilir.
 
 Örnek istek:
