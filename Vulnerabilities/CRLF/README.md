@@ -32,3 +32,14 @@ RFC 7230, çoğu HTTP başlık alanı değerinin yalnızca US-ASCII karakter set
 | `嘍` | `%E5%98%8D` | `\u560d` | `%0D` (\r) |
 | `嘾` | `%E5%98%BE` | `\u563e` | `%3E` (>)  |
 | `嘼` | `%E5%98%BC` | `\u563c` | `%3C` (<)  |
+
+# HTTP/2 ve HTTP/3 Neden Daha Güvenli
+- HTTP/2 ve HTTP/3, header’ları binary frame formatında taşır.
+- \r\n gibi ASCII karakter dizileriyle header sonlandırma mantığı yoktur.
+- Bu yüzden klasik CRLF injection ile header yapısını bozamazsın.
+- Ancak HTTP/1.1 fallback aktifse, hala risk vardır.
+
+Referanslar:
+- https://www.insecure.in/crlf-injection-attack
+- https://www.invicti.com/learn/crlf-injection/?utm_source=chatgpt.com
+- https://playbook.sidthoviti.com/web-app-pentesting/crlf-injection?utm_source=chatgpt.com
