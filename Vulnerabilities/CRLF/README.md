@@ -41,5 +41,5 @@ RFC 7230, çoğu HTTP başlık alanı değerinin yalnızca US-ASCII karakter set
 
 Referanslar:
 - https://www.insecure.in/crlf-injection-attack
-- https://www.invicti.com/learn/crlf-injection/?utm_source=chatgpt.com
-- https://playbook.sidthoviti.com/web-app-pentesting/crlf-injection?utm_source=chatgpt.com
+- https://www.invicti.com/learn/crlf-injection/
+- https://playbook.sidthoviti.com/web-app-pentesting/crlf-injection
