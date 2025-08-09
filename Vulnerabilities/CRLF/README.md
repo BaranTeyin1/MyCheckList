@@ -38,6 +38,8 @@ Location: /normal-path
 Location: https://evil.com
 ```
 
+Tarayıcı ikinci Location’u uygulayarak kullanıcıyı zararlı siteye yönlendirir.
+
 # Cookie Injection ve Session Fixation
 Set-Cookie header’ında kullanıcı girdisi kontrolsüz kullanılıyorsa, saldırgan yeni cookie başlıkları enjekte edebilir.
 
