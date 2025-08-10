@@ -6,6 +6,7 @@ Bu repo, uygulama güvenliğinde öğrendiğim şeyleri unutmamak ve  sistematik
 - [Clickjacking](./Vulnerabilities/Clickjacking/README.md)
 - [Host Header Injection](./Vulnerabilities/Host-Header-Injection/README.md)
 - [CRLF](./Vulnerabilities/CRLF/README.md)
+- [Debug Mod Zafiyetleri](./Vulnerabilities/DEBUG=True-vulnerability/README.md)
 
   ## 📂 Recon
 - [Recon Cheat Sheet](./recon/recon.md)
