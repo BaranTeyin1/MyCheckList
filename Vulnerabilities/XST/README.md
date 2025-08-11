@@ -62,3 +62,8 @@ Normalde tarayıcılar TRACE gibi bazı metodlara JavaScript üzerinden erişimi
 Ancak iki senaryo zafiyeti mümkün kılar:
 - XSS zafiyeti: Saldırgan hedef sitede script çalıştırabildiğinde TRACE isteğini doğrudan o domain üzerinden gönderebilir (Same-Origin Policy engel olmaz).
 - Yanlış yapılandırılmış CORS: Hedef sunucu Access-Control-Allow-Origin: * ve Access-Control-Allow-Credentials: true gibi zayıf CORS ayarlarıyla TRACE yanıtını farklı origin’den okunabilir hale getirirse, saldırgan kendi domain’inden bile veri çekebilir.
+
+Referanslar:
+- https://datatracker.ietf.org/doc/html/rfc7231#section-4.3.8
+- https://owasp.org/www-community/attacks/Cross_Site_Tracing
+- 
