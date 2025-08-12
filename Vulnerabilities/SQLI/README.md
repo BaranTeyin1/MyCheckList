@@ -97,3 +97,31 @@ DELETE ifadesi, bir tabloda bulunan bir veya daha fazla kayıt satırını silme
 ```sql
 DELETE FROM users where username='martin';
 ```
+
+# SQL Injection Çalışma Prensibi
+Örneğin URL şu olsun:
+```url
+https://example.com/blog?id=1
+```
+
+Bu URL'deki id parametresi, web uygulamasının veritabanından blog yazısını çekmek için kullandığı SQL sorgusuna doğrudan ekleniyor olabilir:
+```sql
+SELECT * FROM blog WHERE id=1 AND private=0 LIMIT 1;
+```
+
+Diyelim ki, id=2 olan makale özel (private=1) ve bu yüzden site üzerinde görüntülenmiyor. Saldırgan URL parametresine aşağıdaki gibi kötü niyetli bir giriş yapabilir:
+```url
+https://example.com/blog/id=2;--
+```
+
+Bu durumda sorgu şu şekilde değişir:
+```sql
+SELECT * FROM blog WHERE id=2;-- AND private=0 LIMIT 1;
+```
+
+Burada -- SQL’de yorum satırı işaretidir, sonrasındaki AND private=0 LIMIT 1 kısmı yok sayılır ve sorgu sadece id=2 şartıyla çalışır. Böylece özel makale engel atlatılarak çekilebilir.
+
+Bu tip saldırılara in-band SQL Injection denir ve saldırgan, veri tabanından direkt yanıt alır. SQL Injection’ın üç ana türü vardır:
+- In-band (en yaygın),
+- Blind (veri doğrudan görünmez, mantıksal sonuçlara göre çıkarım yapılır),
+- Out-of-band (veri farklı kanallarla elde edilir).
