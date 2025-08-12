@@ -202,3 +202,62 @@ http://example.com/blog?id=1 UNION SELECT null, table_name, null FROM informatio
 ```
 
 Bu, mevcut veritabanındaki tabloların isimlerinden 5 tanesini çeker.
+
+# Blind SQL Injection Boolean Based
+Blind SQL Injection Boolean Based
+
+Boolean tabanlı SQL Injection, injection denemelerinden aldığımız yanıtın true/false gibi sadece iki olası sonucu olduğu durumlarda kullanılır. Bu sonuçlar, SQL Injection payload'ının başarılı olup olmadığını anlamamızı sağlar. Bu iki yanıttan yola çıkarak, karakter karakter veritabanı yapısını keşfetmek mümkündür.
+
+Örneğin aşağıdaki URL ile karşılaştınız:
+```url
+http://example.com/checkuser?username=admin
+```
+
+Sunucu bu isteğe şu JSON yanıtını verir:
+```json
+{"taken": true}
+```
+
+Bu API endpoint, kullanıcı adının sistemde olup olmadığını kontrol eder. Eğer taken değeri true ise kullanıcı adı alınmış, false ise alınmamıştır. İşlenen SQL sorgusu ise yaklaşık olarak şöyledir:
+```sql
+SELECT * FROM users WHERE username='%username%' LIMIT 1;
+```
+Burada, username parametresine gönderilen değer doğrudan sorguya eklenmektedir ve eğer yeterince filtrelenmezse, SQL Injection mümkün hale gelir.
+
+Boolean Tabanlı True/False Örnekleri
+İlk olarak, basit payload’larla sorgunun true veya false döndürmesini sağlayabiliriz:
+```sql
+' OR 1=1--  
+' OR 1=0--  
+```
+
+- ```' OR 1=1--``` sorguyu her zaman true yapar, veritabanı sorgusu başarılı olur.
+- ```' OR 1=0--``` sorguyu her zaman false yapar, sorgu başarısız olur.
+
+Bu iki durum, hedef uygulamanın yanıtını gözlemleyerek injection olup olmadığını anlamamıza yardımcı olur.
+
+Sütun Sayısını Belirlemek
+
+UNION sorguları kullanırken sütun sayısı ve türü kritik önemdedir. Boolean tabanlı saldırıda da sütun sayısını öğrenmek gerekir. Örneğin, users tablosundaki sütun sayısını tespit etmek için şu payload’ı kullanırız:
+```sql
+test' UNION SELECT NULL;-- -
+```
+
+Eğer uygulama false dönerse sütun sayısı yanlış demektir, daha fazla sütun ile denemeye devam ederiz:
+```sql
+test' UNION SELECT NULL,NULL;-- -  
+test' UNION SELECT NULL,NULL,NULL;-- -  
+```
+
+True döndüğü anda doğru sütun sayısını bulmuş oluruz.
+
+Veritabanı İsmini Karakter Karakter Öğrenmek
+
+Sütun sayısını bulduktan sonra, veritabanının adını bulmak için karakter bazlı boolean sorguları kullanılır. Örneğin, database() fonksiyonunu sorgulayıp LIKE operatörü ile sorgu yapabiliriz:
+```sql
+test' AND database() LIKE 'a%';--  
+```
+- Eğer bu sorgu true dönerse, veritabanı adı 'a' harfi ile başlıyor demektir.
+- Değilse, 'b', 'c' ... şeklinde diğer harfler denenir.
+
+Bu şekilde, veritabanı adının tüm karakterleri, her seferinde tek bir harf deneyerek bulunur.
