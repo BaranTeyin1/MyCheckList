@@ -95,5 +95,5 @@ UPDATE users SET username='root', password='pass123' where username='admin';
 ## DELETE 
 DELETE ifadesi, bir tabloda bulunan bir veya daha fazla kayıt satırını silmek için kullanılır. SELECT sorgusuna benzer şekilde WHERE koşulu ile hangi satırların silineceği belirtilir.
 ```sql
-DELETE * FROM users where username='martin';
+DELETE FROM users where username='martin';
 ```
