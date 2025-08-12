@@ -134,3 +134,23 @@ Error-Based SQL Injection, veritabanının hata mesajlarını doğrudan kullanı
 
 # UNION Based SQL Injection
 Bu SQL Injection türü SQL UNION operatörünü bir SELECT ifadesi ile birleştirerek sayfaya ek sonuçlar döndürmek için kullanılır. Bu yöntem geniş miktarda veri çıkartmanın en yaygın yoludur.
+
+UNION operatörü, iki veya daha fazla SELECT sorgusunun sonuçlarını birleştirerek tek bir sonuç seti olarak döndürür. Saldırgan, hedef uygulamanın orijinal sorgusuna ek olarak kendi sorgusunu UNION ile ekleyerek, veritabanından istediği ek verileri çekebilir.
+
+Ancak UNION sorgularında:
+- Birleşen sorguların sütun sayısı aynı olmalı,
+- Sütunların veri tipleri uyumlu olmalı,
+- Yanlış sütun sayısı veya tip uyuşmazlığı hata verir ve saldırı başarısız olur.
+
+Örnek:
+```sql
+-- Normal sorgu:
+SELECT id, username, email FROM users WHERE id=1;
+
+-- UNION ile veri çekme:
+SELECT id, username, email FROM users WHERE id=1
+UNION
+SELECT null, database(), null;
+```
+
+Burada ikinci sorgu, ilk sorgu ile aynı sütun sayısına sahiptir (3 sütun) ve ikinci sütunda veritabanı ismini getirir. Böylece saldırgan veritabanı hakkında bilgi edinir.
