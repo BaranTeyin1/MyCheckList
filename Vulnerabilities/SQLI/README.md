@@ -290,7 +290,7 @@ Bu şekilde, veritabanı adının tüm karakterleri, her seferinde tek bir harf 
 ```sql
 test' UNION SELECT null,null,null FROM information_schema.tables where table_schema='table_name' AND table_name like 'a%';-- -
 ```
-Bu sorgu information_schema veritabanındaki tablolar tablosunda veri tabanı adının işleştiği ve tablo adının a ile başladığı sonuçları arar. Önceki gibi harfleri sayılar ve karakterleri döngü yapmamız ve pozitif bir eşleşme bulana kadaar devam etmemiz gerkecek
+Bu sorgu information_schema veritabanındaki tablolar tablosunda veri tabanı adının eşleştiği ve tablo adının a ile başladığı sonuçları arar. Önceki gibi harfleri sayılar ve karakterleri döngü yapmamız ve pozitif bir eşleşme bulana kadar devam etmemiz gerekecek
 
 Tabloları Listeleme (information_schema)
 
