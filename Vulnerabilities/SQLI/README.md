@@ -125,3 +125,12 @@ Bu tip saldırılara in-band SQL Injection denir ve saldırgan, veri tabanından
 - In-band (en yaygın),
 - Blind (veri doğrudan görünmez, mantıksal sonuçlara göre çıkarım yapılır),
 - Out-of-band (veri farklı kanallarla elde edilir).
+
+## In-Band SQL Injection
+In-Band SQL Injection, saldırganın aynı kanal üzerinden hem zafiyeti sömürmesini hem de sonuçları almasını sağlar. En yaygın ve en kolay istismar edilen SQLi türüdür. Örneğin, web uygulamasına enjekte edilen zararlı sorgu sonucunda veri doğrudan sayfa çıktısında veya hata mesajlarında görünür.
+
+## Error Based SQL Injection
+Error-Based SQL Injection, veritabanının hata mesajlarını doğrudan kullanıcıya döndürmesi sayesinde veritabanı yapısı, tablolar, sütunlar gibi hassas bilgilerin çıkarılmasına olanak sağlar. Hata mesajları saldırgana bilgi sızıntısı yapar ve genellikle yapı keşfi için kullanılır.
+
+# UNION Based SQL Injection
+Bu SQL Injection türü SQL UNION operatörünü bir SELECT ifadesi ile birleştirerek sayfaya ek sonuçlar döndürmek için kullanılır. Bu yöntem geniş miktarda veri çıkartmanın en yaygın yoludur.
