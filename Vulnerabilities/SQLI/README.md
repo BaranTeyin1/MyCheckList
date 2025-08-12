@@ -69,3 +69,31 @@ SELECT name, address, city, postcode FROM customers
 UNION
 SELECT company, address, city, postcode FROM suppliers;
 ```
+
+## INSERT
+INSERT ifadesi, bir tabloya yeni veri satırı eklemek için kullanılır.
+
+```sql
+INSERT INTO users (username, password) VALUES('bob', 'password')
+```
+
+- INSERT INTO users → Veriyi ekleyeceğimiz tabloyu belirtir.
+- (username, password) → Eklenecek sütunları tanımlar.
+- VALUES ('bob', 'password') → Bu sütunlara karşılık gelen verileri belirtir.
+
+## UPDATE
+UPDATE ifadesi veritabanına bir veya daha fazla veri satırını güncellemek istediğimizi belirtir.
+
+```sql
+UPDATE users SET username='root', password='pass123' where username='admin';
+```
+
+- UPDATE users → users tablosundaki kayıtların güncelleneceğini belirtir.
+- SET username='root', password='pass123' → Güncellenecek sütunlar ve yeni değerleri burada belirtilir; bu örnekte username "root" ve password "pass123" olarak değiştirilir.
+- WHERE username='admin' → Sadece username değeri "admin" olan kayıtlar üzerinde güncelleme yapılır. Bu koşul olmazsa, tablodaki tüm satırlar güncellenir.
+
+## DELETE 
+DELETE ifadesi, bir tabloda bulunan bir veya daha fazla kayıt satırını silmek için kullanılır. SELECT sorgusuna benzer şekilde WHERE koşulu ile hangi satırların silineceği belirtilir.
+```sql
+DELETE * FROM users where username='martin';
+```
