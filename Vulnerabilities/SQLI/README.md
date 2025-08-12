@@ -158,7 +158,6 @@ Burada ikinci sorgu, ilk sorgu ile aynı sütun sayısına sahiptir (3 sütun) v
 ## UNION Based SQL Injection İle Veri Çıkartmak
 Aşağıda popüler veritabanları için işinize yarayabilecek veri çıkartma yolları listelenmiştir:
 
-Database contents
 Oracle:
 ```sql
 SELECT * FROM all_tables
