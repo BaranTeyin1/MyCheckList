@@ -1,22 +1,3 @@
-## İçindekiler
-- [SQL Injection Nedir](#sql-injection-nedir)
-- [SQL Nedir](#sql-nedir)
-- [Veritabanı Nedir](#veritabani-nedir)
-- [SQL Komutları](#sql-komutlari)
-  - [SELECT](#select)
-  - [UNION](#union)
-  - [INSERT](#insert)
-  - [UPDATE](#update)
-  - [DELETE](#delete)
-- [SQL Injection Çalışma Prensibi](#sql-injection-calisma-prensibi)
-- [In-Band SQL Injection](#in-band-sql-injection)
-- [Error Based SQL Injection](#error-based-sql-injection)
-- [Union Based SQL Injection](#union-based-sql-injection)
-- [Blind SQL Injection](#blind-sql-injection)
-  - [Boolean Based](#boolean-based)
-  - [Time Based](#time-based)
-- [Out-of-Band SQL Injection](#out-of-band-sql-injection)
-
 # SQL Injection
 SQL Injection, kullanıcıdan alınan verinin doğrudan SQL sorgusuna eklenmesi ve yeterli filtreleme/sanitizasyon yapılmaması sonucunda ortaya çıkan bir güvenlik zafiyetidir.
 Bu zafiyetin istismarı ile saldırgan:
