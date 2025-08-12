@@ -8,6 +8,7 @@ Bu repo, uygulama güvenliğinde öğrendiğim şeyleri unutmamak ve  sistematik
 - [CRLF](./Vulnerabilities/CRLF/README.md)
 - [Debug Mod Zafiyetleri](./Vulnerabilities/DEBUG=True-vulnerability/README.md)
 - [XST](./Vulnerabilities/XST/README.md)
+- [SQL Injection](./Vulnerabilities/SQLI/README.md)
 
   ## 📂 Recon
 - [Recon Cheat Sheet](./recon/recon.md)
