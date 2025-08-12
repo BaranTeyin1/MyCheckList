@@ -40,19 +40,19 @@ SELECT * FROM users;
 
 - FROM users → users adındaki tablodan veri alınacağını belirtir.
 
-İlk sorgu gibi aşağıdaki sorguda tüm stunları döndürür, ardından LIMIT 1 ifadesi sadece bir veri satırı döndürmesini sağlar.
+Aşağıdaki sorgu yine tüm sütunları döndürür, ancak LIMIT 1 ifadesi sadece 1 satır getirilmesini sağlar:
 ```sql
 SELECT * FROM users LIMIT 1;
 ```
 
-Son olarak where ifadesini kullnacağız, bu ifade belirli koşullara uyan verileri seçerek tam olarak ihtiyacınız olan veriyi seçmenizi sağlar.
+WHERE ifadesi, belirli koşullara uyan kayıtları filtrelemek için kullanılır:
 ```sql
 SELECT * FROM users where username='admin'
 ```
 
 Bu sadece kullanıcı adının admine eşit olduğu satırları döndürür.
 
-LIKE ifadesini kullanmak, tam eşleşme olmayan ancak belirli karakterlerle başlayan, içeren veya biten verileri belirtmemizi sağlar. bunu yapmak için % kullanılır.
+LIKE ifadesi, tam eşleşme yerine belirli bir desenle (pattern) arama yapmamızı sağlar. % sembolü, sıfır veya daha fazla karakter yerine geçer:
 ```sql
 SELECT * FROM users where username LIKE 'a%';
 ```
