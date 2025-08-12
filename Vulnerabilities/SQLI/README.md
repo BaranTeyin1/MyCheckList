@@ -47,7 +47,7 @@ SELECT * FROM users LIMIT 1;
 
 WHERE ifadesi, belirli koşullara uyan kayıtları filtrelemek için kullanılır:
 ```sql
-SELECT * FROM users where username='admin'
+SELECT * FROM users where username='admin';
 ```
 
 Bu sadece kullanıcı adının admine eşit olduğu satırları döndürür.
@@ -57,4 +57,15 @@ LIKE ifadesi, tam eşleşme yerine belirli bir desenle (pattern) arama yapmamız
 SELECT * FROM users where username LIKE 'a%';
 ```
 
-## UNION 
+## UNION
+UNION ifadesi, iki veya daha fazla SELECT sorgusunun sonuçlarını birleştirerek tek bir sonuç seti olarak döndürür. Bu sayede birden fazla tablodan veya sorgudan veri alabilirsin.
+
+Kurallar:
+- UNION ifadesinden önceki ve sonraki SELECT sorguları aynı sayıda sütun döndürmelidir.
+- Bu sütunların veri tipleri (data types) uyumlu olmalıdır (örneğin, birinde INT diğerinde VARCHAR olmamalı).
+
+```sql
+SELECT name, address, city, postcode FROM customers
+UNION
+SELECT company, address, city, postcode FROM suppliers;
+```
