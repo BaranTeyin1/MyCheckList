@@ -9,6 +9,7 @@ Bu repo, uygulama güvenliğinde öğrendiğim şeyleri unutmamak ve  sistematik
 - [Debug Mod Zafiyetleri](./Vulnerabilities/DEBUG=True-vulnerability/README.md)
 - [XST](./Vulnerabilities/XST/README.md)
 - [SQL Injection](./Vulnerabilities/SQLI/README.md)
+- [OS Command Injection](./Vulnerabilities/OS-Command-Injection/README.md)
 
   ## 📂 Recon
 - [Recon Cheat Sheet](./recon/recon.md)
