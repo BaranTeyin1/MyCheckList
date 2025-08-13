@@ -157,7 +157,7 @@ Temel fark
 - Black-box testlerde genellikle atlanır.
 - Kullanıcı değerleri tek tırnak içine alınsa bile, bazı opsiyonlar veya flagler hala injection için kullanılabilir.
 
-Shell’de komut yerine koymayı önlemek için tek tırnak veya escaping yeterli olabilir. Ancak argument injection, parametreler olarak değerlendirilme durumunu kapsar; yani komut injectiona karşı yapılan kaçışlar bu açığı önlemeyebilir.
+Shell’de komut yerine koymayı önlemek için tek tırnak veya escaping yeterli olabilir. Ancak argument injection, parametreler olarak değerlendirilme durumunu kapsar; yani command injectiona karşı yapılan kaçışlar bu açığı önlemeyebilir.
 
 ## Örnek Payloadlar
 Aşağıdaki örneklerde kullanıcı kontrollü argument, komutları veya dosya yolunu manipüle edecek şekilde geçiyor:
@@ -172,7 +172,7 @@ ssh '-oProxyCommand="touch /tmp/foo"' foo@foo
 Her örnek, mevcut komutun argümanlarını kullanıcı kontrollü bir şekilde manipüle ederek ek komut çalıştırmayı gösteriyor.
 
 # Nasıl Önlenir?
-- komut argümanlarını shell’e göndermeyin
+- komut argümanlarını shell'e göndermeyin
 - exec() veya subprocess gibi fonksiyonlarda string yerine argüman listesi kullanın.
 - Kullanıcı girdisini doğrudan parametre/flag olarak iletmeyin
 - Gerekliyse whitelist ile doğrulayın (ör. sadece belirli flag veya değerler).
