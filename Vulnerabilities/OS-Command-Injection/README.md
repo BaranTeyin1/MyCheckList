@@ -69,7 +69,7 @@ Sistem bilgisi saldırgan sunucusuna gönderilir.
 ## Filtreleri Bypasslamak
 ### {IFS} (Internal Field Separator)
 - Amaç: Filtrelenmiş boşluk karakterlerini atlatmak.
-- Örnek: ping{IFS}-c{IFS}1{IFS}127.0.0.1 → boşluk yerine {IFS} kullanarak komut hala çalışır.
+- Örnek: ``` ping{IFS}-c{IFS}1{IFS}127.0.0.1 ``` → boşluk yerine {IFS} kullanarak komut hala çalışır.
 - Faydası: Özellikle whitelist veya regex tabanlı filtreleri bypass etmek için kullanılır.
 - Not: {IFS} sadece POSIX/Linux ortamında çalışır.
 
