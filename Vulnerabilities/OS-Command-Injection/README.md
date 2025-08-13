@@ -145,3 +145,37 @@ import subprocess, shlex
 safe_input = shlex.quote(user_input)
 subprocess.run(f"ls {safe_input}", shell=True)
 ```
+
+# Argument Injection
+Argüman enjeksiyonu (bazı kaynaklarda parameter injection veya flag injection olarak da adlandırılır), bir yazılımın başka bir bileşene komut çalıştırmak için oluşturduğu stringi doğru şekilde ayırmaması durumunda ortaya çıkar.
+Temel fark
+- Komut enjeksiyonu: Kullanıcının girdiği değerler shell tarafından yorumlanır; yeni bir shell örneği çalıştırılır veya kontrol operatörleri (;, &&, |) değerlendirilir.
+- Argüman enjeksiyonu: Yeni bir shell çalıştırmaya gerek yoktur; kullanıcı kontrollü argümanlar, mevcut komutun parametrelerini bozacak şekilde geçer.
+
+## Neden kritik?
+- Kod incelemelerinde kolaylıkla gözden kaçabilir.
+- Black-box testlerde genellikle atlanır.
+- Kullanıcı değerleri tek tırnak içine alınsa bile, bazı opsiyonlar veya flagler hala enjeksiyon için kullanılabilir.
+
+Shell’de komut yerine koymayı önlemek için tek tırnak veya escaping yeterli olabilir. Ancak argüman enjeksiyonu, parametreler olarak değerlendirilme durumunu kapsar; yani komut enjeksiyonuna karşı yapılan kaçışlar bu açığı önlemeyebilir.
+
+## Örnek Payloadlar
+Aşağıdaki örneklerde kullanıcı kontrollü argümanlar, komutları veya dosya yolunu manipüle edecek şekilde geçiyor:
+```bash
+env '--split-string=sh -c "id > /tmp/pwned"' foo
+git archive '--output=/tmp/foo' ## Arbitrary File Output (AFO)
+tar '--checkpoint=1' '--checkpoint-action=exec="sh shell.sh"'
+zip '-TmTT="$(id>/tmp/foo)foooo".zip' './a.zip' './a.txt'
+ssh '-oProxyCommand="touch /tmp/foo"' foo@foo
+```
+
+Her örnek, mevcut komutun argümanlarını kullanıcı kontrollü bir şekilde manipüle ederek ek komut çalıştırmayı gösteriyor.
+
+# Nasıl Önlenir?
+- komut argümanlarını shell’e göndermeyin
+- exec() veya subprocess gibi fonksiyonlarda string yerine argüman listesi kullanın.
+- Kullanıcı girdisini doğrudan parametre/flag olarak iletmeyin
+- Gerekliyse whitelist ile doğrulayın (ör. sadece belirli flag veya değerler).
+- Harici komutları minimum yetkilerle çalıştırın
+- Gereksiz PATH erişimleri, yazma izinleri ve environment değişkenlerini devre dışı bırakın.
+- Library fonksiyonlarını tercih edin. Örn. arşiv açmak için tar komutunu çağırmak yerine dilin kendi ZIP/TAR kütüphanesini kullanın.
