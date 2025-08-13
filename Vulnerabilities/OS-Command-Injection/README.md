@@ -124,3 +124,24 @@ bash<<<$(base64 -d<<<Y2F0IC9ldGMvcGFzc3dk==)
 
 "Y2F0IC9ldGMvcGFzc3dk==" → cat /etc/passwd komutunu temsil eder. Filtre doğrudan komutu göremez.
 
+# Command Injection Zafiyetini Önlemek
+## shell=False kullanmak
+subprocess gibi modüllerde shell=True kullanmak, kullanıcı girdisinin doğrudan kabuk komutuna aktarılması anlamına gelir ve saldırıya açıktır. shell=False kullanarak komut ve parametreleri ayrı bir liste olarak ver, böylece kabuk yorumlaması devre dışı kalır.
+```python
+import subprocess
+
+# Güvensiz
+subprocess.run(f"ls {user_input}", shell=True)
+
+# Güvenli
+subprocess.run(["ls", user_input], shell=False)
+```
+
+## shlex.quote veya benzeri escaping fonksiyonları
+Kullanıcı girdisi bir şekilde komut satırına geçmek zorundaysa, özel karakterleri kaçırarak güvenli hâle getir. Bu, özellikle shell=True zorunluysa kritik bir önlemdir.
+```python
+import subprocess, shlex
+
+safe_input = shlex.quote(user_input)
+subprocess.run(f"ls {safe_input}", shell=True)
+```
