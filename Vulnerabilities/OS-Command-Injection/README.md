@@ -147,20 +147,20 @@ subprocess.run(f"ls {safe_input}", shell=True)
 ```
 
 # Argument Injection
-Argüman enjeksiyonu (bazı kaynaklarda parameter injection veya flag injection olarak da adlandırılır), bir yazılımın başka bir bileşene komut çalıştırmak için oluşturduğu stringi doğru şekilde ayırmaması durumunda ortaya çıkar.
+Argument injection (bazı kaynaklarda parameter injection veya flag injection olarak da adlandırılır), bir yazılımın başka bir bileşene komut çalıştırmak için oluşturduğu stringi doğru şekilde ayırmaması durumunda ortaya çıkar.
 Temel fark
-- Komut enjeksiyonu: Kullanıcının girdiği değerler shell tarafından yorumlanır; yeni bir shell örneği çalıştırılır veya kontrol operatörleri (;, &&, |) değerlendirilir.
-- Argüman enjeksiyonu: Yeni bir shell çalıştırmaya gerek yoktur; kullanıcı kontrollü argümanlar, mevcut komutun parametrelerini bozacak şekilde geçer.
+- Command injection: Kullanıcının girdiği değerler shell tarafından yorumlanır; yeni bir shell örneği çalıştırılır veya kontrol operatörleri (;, &&, |) değerlendirilir.
+- Argument injection: Yeni bir shell çalıştırmaya gerek yoktur; kullanıcı kontrollü argument, mevcut komutun parametrelerini bozacak şekilde geçer.
 
 ## Neden kritik?
 - Kod incelemelerinde kolaylıkla gözden kaçabilir.
 - Black-box testlerde genellikle atlanır.
-- Kullanıcı değerleri tek tırnak içine alınsa bile, bazı opsiyonlar veya flagler hala enjeksiyon için kullanılabilir.
+- Kullanıcı değerleri tek tırnak içine alınsa bile, bazı opsiyonlar veya flagler hala injection için kullanılabilir.
 
-Shell’de komut yerine koymayı önlemek için tek tırnak veya escaping yeterli olabilir. Ancak argüman enjeksiyonu, parametreler olarak değerlendirilme durumunu kapsar; yani komut enjeksiyonuna karşı yapılan kaçışlar bu açığı önlemeyebilir.
+Shell’de komut yerine koymayı önlemek için tek tırnak veya escaping yeterli olabilir. Ancak argument injection, parametreler olarak değerlendirilme durumunu kapsar; yani komut injectiona karşı yapılan kaçışlar bu açığı önlemeyebilir.
 
 ## Örnek Payloadlar
-Aşağıdaki örneklerde kullanıcı kontrollü argümanlar, komutları veya dosya yolunu manipüle edecek şekilde geçiyor:
+Aşağıdaki örneklerde kullanıcı kontrollü argument, komutları veya dosya yolunu manipüle edecek şekilde geçiyor:
 ```bash
 env '--split-string=sh -c "id > /tmp/pwned"' foo
 git archive '--output=/tmp/foo' ## Arbitrary File Output (AFO)
