@@ -188,3 +188,14 @@ Content-Security-Policy: default-src 'none'; script-src https://hello.vaadata.co
 ```url
 https://accounts.google.com/o/oauth2/revoke?callback=alert(1)
 ```
+
+## XSS Saldırılarını Önlemek
+CSP, XSS gibi zafiyetlerin kötüye kullanılmasını sınırlayan veya önleyen ek bir koruma katmanı sağlar. Bu saldırılara karşı ilk savunma hattı hâlâ input validation ve output encoding yöntemleridir. Genel olarak, CSP aşağıdaki noktalar dikkate alınmalıdır:
+
+* Restriktif bir default-src direktifi tanımlayın.
+* Sıkı bir object-src direktifi uygulayın (ideal olarak none).
+* unsafe-eval ve unsafe-inline değerlerinden kaçının. Genel kural olarak, ‘unsafe’ içeren direktifleri yasaklayın; yalnızca etkilerini tam olarak anladığınızda izin verin.
+* Harici sunuculardan script yüklemeye izin vermeyin.
+* Wildcard (*) kullanımını en aza indirin.
+* Güvenliği güçlendirmek için nonce kullanın.
+* CSP’nizin sağlamlığını özel araçlar kullanarak test edin
