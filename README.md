@@ -10,6 +10,7 @@ Bu repo, uygulama güvenliğinde öğrendiğim şeyleri unutmamak ve  sistematik
 - [XST](./Vulnerabilities/XST/README.md)
 - [SQL Injection](./Vulnerabilities/SQLI/README.md)
 - [OS Command Injection & Argument Injection](./Vulnerabilities/OS-Command-Injection/README.md)
+- [XSS](./Vulnerabilities/XSS/README.md)
 
   ## 📂 Recon
 - [Recon Cheat Sheet](./recon/recon.md)
