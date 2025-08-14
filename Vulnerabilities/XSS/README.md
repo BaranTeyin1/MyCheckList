@@ -193,7 +193,7 @@ Saldırgan kendi sunucusundan script yükleyebilir:
 Content-Security-Policy: script-src 'self'; img-src 'self';
 ```
 
-<object> etiketi ile Base64 kodlu zararlı script yüklenebilir:
+```<object>``` etiketi ile Base64 kodlu zararlı script yüklenebilir:
 ```js
 <object data="data:text/html;base64,PHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg=="></object>
 ```
