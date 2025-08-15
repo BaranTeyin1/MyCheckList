@@ -347,3 +347,6 @@ CSP, XSS gibi zafiyetlerin kötüye kullanılmasını sınırlayan veya önleyen
 * Wildcard (*) kullanımını en aza indirin.
 * Güvenliği güçlendirmek için nonce kullanın.
 * CSP’nizin sağlamlığını özel araçlar kullanarak test edin
+
+Referanslar:
+- https://www.vaadata.com/blog/content-security-policy-bypass-techniques-and-security-best-practices/
