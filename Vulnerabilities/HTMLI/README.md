@@ -48,6 +48,31 @@ Buna en sık neden olan riskli kullanım şekilleri:
 - `document.write()` → HTML’e direkt enjekte eder.
 - String concatenation (ör. `"<div>" + userInput + "</div>"`) → HTML parser’a ham veri gönderir.
 
-Doğru kullanım: 
-- HTML context’te `textContent`, `innerText` veya attribute context’te `setAttribute()` gibi safe API’ler kullanmak.
+## HTML Injection Nasıl Önlenir?
+HTML Injection açıklarını engellemek için şu önlemler uygulanmalıdır:
 
+### Output Encoding
+Kullanıcıdan gelen veriyi HTML context’e koymadan önce HTML entity’lerine çevirin.
+Örnek PHP’de:
+```php
+<?php echo htmlspecialchars($userInput, ENT_QUOTES, 'UTF-8'); ?>
+```
+
+JavaScript’te:
+```javascript
+element.textContent = userInput; // innerHTML yerine
+```
+
+### Güvenli DOM API’leri Kullanma
+* `innerHTML` yerine `textContent` veya `innerText` kullanın.
+* HTML attribute eklerken `setAttribute()` ile değerleri escape edin.
+
+### HTML Template Engine Kullanımı
+Modern template engine’ler (Twig, Mustache, Handlebars) otomatik olarak escape işlemi yapar.
+
+### Content Security Policy (CSP)
+HTML Injection doğrudan engellemez ama XSS’e dönüşmesini zorlaştırır.
+Örneğin:
+```http
+Content-Security-Policy: default-src 'self'; script-src 'self';
+```
