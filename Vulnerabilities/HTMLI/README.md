@@ -32,11 +32,22 @@ Farklar:
 | Çalışma Garantisi | Sadece HTML/DOM manipülasyonu; JavaScript çalıştırma garantisi yok. | Doğrudan JavaScript çalıştırılabilir (alert, cookie çalma, keylogger vb.).       |
 | Etki Alanı        | Görsel değişiklik, phishing form ekleme, sahte içerik               | JavaScript ile çerez, localStorage, token çalma, vb. |                                                  |                                                 |
 
----
-
 Kritik Not:
 HTML Injection bazı durumlarda XSS’e dönüşebilir. Örneğin:
 
-* `<img src=x onerror=alert(1)>` gibi HTML elementleri üzerinden JS çalıştırmak mümkünse, bu XSS olur.
-* Ama sadece `<h1>`, `<p>`, `<div>` gibi pasif etiketler enjekte edilebiliyorsa, bu saf HTML Injection’dır.
+- `<img src=x onerror=alert(1)>` gibi HTML elementleri üzerinden JS çalıştırmak mümkünse, bu XSS olur.
+- Ama sadece `<h1>`, `<p>`, `<div>` gibi pasif etiketler enjekte edilebiliyorsa, bu saf HTML Injection’dır.
+
+Tamam, bunu da teknik detaylarıyla ve context/payload farklılıklarıyla açıklayayım.
+
+## HTML Injection Nasıl Oluşur
+HTML Injection, kullanıcı girdisinin HTML çıktısına eklenmeden önce HTML context’ine uygun şekilde escape edilmemesi sonucu oluşur.
+
+Buna en sık neden olan riskli kullanım şekilleri:
+- `innerHTML` → Tarayıcı, string’i doğrudan HTML olarak parse eder.
+- `document.write()` → HTML’e direkt enjekte eder.
+- String concatenation (ör. `"<div>" + userInput + "</div>"`) → HTML parser’a ham veri gönderir.
+
+Doğru kullanım: 
+- HTML context’te `textContent`, `innerText` veya attribute context’te `setAttribute()` gibi safe API’ler kullanmak.
 
