@@ -58,3 +58,6 @@ Farklı backend teknolojileri farklı şablon motorları kullanır ve SSTI testi
 - .NET (Razor): @(7*7) → 49
 
 Pentester açısından bu fark önemlidir çünkü hangi engine kullanıldığını anladığında payloadlarını uyarlaması gerekir.
+
+Farklı şablon motorlarını test etmek için aşağıdaki akış kullanılabilir:
+![alt text](resim.png)
