@@ -14,4 +14,4 @@ Bir XML payload içerisine XXE eklenerek external entity’ye referans verilebil
 </stockCheck>
 ```
 
-Bu örnekte ```&xxe;```, sunucunun /etc/passwd dosyasına referans verir ve parser yanlış yapılandırıldıysa dosyanın içeriği yanıt olarak döner.
+Bu örnekte ```&xxe;```, sunucunun /etc/passwd dosyasına referans verir ve parser yanlış yapılandırıldıysa dosyanın içeriği yanıt olarak döner. Bu saldırılara karşı korunmak için, bu parser’ları güvenli şekilde kullanabilmek adına XXE (External Entities) özelliğini açıkça devre dışı bırakmamız gerekir.
