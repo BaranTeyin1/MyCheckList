@@ -72,3 +72,41 @@ Out Of Band:
 ]>
 <foo>&xxe;</foo>
 ```
+
+# XXE Saldırısnı Önlemek
+XML Parser Konfigürasyonu
+
+Kullandığınız dili ve XML kütüphanesini hedef alarak, external entity çözme özelliğini kapatmanız gerekir.
+
+Java (JAXP / SAX / DOM):
+```java
+DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+dbf.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+dbf.setFeature("http://xml.org/sax/features/external-general-entities", false);
+dbf.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+dbf.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+dbf.setXIncludeAware(false);
+dbf.setExpandEntityReferences(false);
+```
+
+Python (lxml):
+```py
+from lxml import etree
+
+parser = etree.XMLParser(resolve_entities=False, no_network=True)
+tree = etree.fromstring(xml_data, parser=parser)
+```
+
+.NET (C#)
+```c#
+var settings = new XmlReaderSettings
+{
+    DtdProcessing = DtdProcessing.Prohibit,
+    XmlResolver = null
+};
+var reader = XmlReader.Create(stream, settings);
+```
+
+Referanslar:
+- https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/XXE%20Injection
+- https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html
