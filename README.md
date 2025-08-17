@@ -13,6 +13,7 @@ Bu repo, uygulama güvenliğinde öğrendiğim şeyleri unutmamak ve  sistematik
 - [XSS](./Vulnerabilities/XSS/README.md)
 - [HTML Injection](./Vulnerabilities/HTMLI/README.md)
 - [Server-Side Template Injection](./Vulnerabilities/SSTI/README.md)
+- [(XML External Entity Injection](./Vulnerabilities/XXE/README.md)
 
   ## 📂 Recon
 - [Recon Cheat Sheet](./recon/recon.md)
