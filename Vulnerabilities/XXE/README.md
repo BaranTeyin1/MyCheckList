@@ -1,0 +1,2 @@
+# XXE Nedir
+XML External Entity Injection, kullanıcıdan alınan XML verisinin güvenli olmayan parser’larda işlenmesi sırasında saldırganın özel tanımlı <!DOCTYPE> ve <!ENTITY> yapıları kullanarak uygulamanın dış kaynaklara erişmesini sağlamasıyla ortaya çıkan bir güvenlik zafiyetidir. Bu zafiyet, dosya okuma , iç ağlara erişim, hizmet dışı bırakma ve bazı durumlarda RCE gibi ciddi etkiler doğurabilir.
