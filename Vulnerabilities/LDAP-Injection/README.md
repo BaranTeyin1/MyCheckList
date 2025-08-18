@@ -7,14 +7,16 @@ LDAP (Lightweight Directory Access Protocol), dizin servislerine erişmek ve yö
 # LDAP Injection Nasıl Çalışır
 LDAP sorguları genellikle kullanıcı girişlerinde, kimlik doğrulama mekanizmalarında veya arama fonksiyonlarında kullanılır. Örneğin, bir uygulama kullanıcıdan aldığı kullanıcı adı ve şifre parametrelerini doğrudan LDAP filtresine ekliyorsa, saldırgan bu parametreleri manipüle ederek sorgunun mantığını değiştirebilir.
 
+## Authentication Bypass
 Örnek olarak şu basit LDAP filtresini ele alalım:
 ```ldap
 (&(uid=admin)(userPassword=12345))
 ```
 
-Ancak saldırgan kullanici_adi alanına şu değeri gönderirse:
+Ancak saldırgan kullanici_adi alanına şu değerlerden birini gönderirse:
 ```ldap
 *)(|(uid=*))
+admin)(&)
 ```
 
 Sorgu şu hale dönüşür:
@@ -23,3 +25,31 @@ Sorgu şu hale dönüşür:
 ```
 
 Bu durumda filtre, tüm kullanıcıları döndürebilir ve kimlik doğrulama mekanizması bypass edilebilir.
+
+## Privilege Escalation
+LDAP Injection yalnızca kimlik doğrulama bypass’ı için kullanılmaz; aynı zamanda kullanıcıların erişim seviyelerini atlayarak yüksek ayrıcalıklı verilere ulaşmak için de kullanılabilir. Özellikle güvenlik seviyesi ile filtrelenen dizinlerde bu açık kritik hale gelir.
+
+Örnek senaryo: Bir dizin servisi, belgeleri şu filtre ile getiriyor:
+```ldap
+(&(department=Finance)(access_level=employee))
+```
+
+Bu filtre normalde yalnızca “employee” seviyesindeki kullanıcıların görebileceği finans belgelerini döndürecektir.
+
+Saldırgan, kullanıcı girişine şu değeri enjekte ederse:
+```ldap
+Finance)(access_level=*))(&(department=*
+```
+
+Filtre şu hale gelir:
+```ldap
+(&(department=Finance)(access_level=*))
+(&(department=Finance)(access_level=employee))
+```
+
+LDAP motoru yalnızca ilk filtreyi işler:
+```ldap
+(&(department=Finance)(access_level=*))
+```
+
+Böylece saldırgan, normalde yalnızca yüksek yetkiye sahip kullanıcıların görebileceği tüm belgeleri listeleyebilir. Bu yöntemle, saldırgan düşük yetkili bir kullanıcı olsa bile “confidential” veya “management-only” belgeleri görüntüleyebilir.
