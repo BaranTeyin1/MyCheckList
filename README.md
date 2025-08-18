@@ -14,6 +14,7 @@ Bu repo, uygulama güvenliğinde öğrendiğim şeyleri unutmamak ve  sistematik
 - [HTML Injection](./Vulnerabilities/HTMLI/README.md)
 - [Server-Side Template Injection](./Vulnerabilities/SSTI/README.md)
 - [XML External Entity Injection](./Vulnerabilities/XXE/README.md)
+- [LDAP Injection](./Vulnerabilities/LDAP-Injection/README.md)
 
   ## 📂 Recon
 - [Recon Cheat Sheet](./recon/recon.md)
