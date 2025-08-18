@@ -61,3 +61,47 @@ LDAP motoru yalnızca ilk filtreyi işler:
 ```
 
 Böylece saldırgan, normalde yalnızca yüksek yetkiye sahip kullanıcıların görebileceği tüm belgeleri listeleyebilir. Bu yöntemle, düşük yetkili bir kullanıcı bile “confidential” veya “management-only” belgeleri görüntüleyebilir.
+
+### Mantık Operatörleri ile LDAP Enjeksiyon Örnekleri
+
+#### AND (`&`) ve OR (`|`) Operatörleri
+   - Enjeksiyon için kullanılan temel mantık operatörleri.
+   - Örnek:
+     ```ldap
+     (&(attribute=value)(injected_filter))
+     (|(attribute=value)(injected_filter))
+     ```
+
+   - Bazı LDAP sunucuları (ADAM, OpenLDAP) çift filtreyi desteklemez, bu yüzden enjeksiyonlar sunucunun hangi kısmını işlediğine göre değişir.
+
+#### Sentetik Doğru Enjeksiyon Örneği
+   - Sunucunun ikinci filtreyi göz ardı ettiği durumlarda kullanılabilir:
+     ```ldap
+     value)(injected_filter))(&(1=0
+     ```
+
+   - Bu, ilk filtreyi çalıştırırken ikinci kısmın etkisiz kalmasını sağlar.
+
+#### Blind LDAP Enjeksiyonu
+   - Sunucu hata mesajı vermez, fakat TRUE / FALSE cevapları üzerinden bilgi sızdırılır.
+   - AND örneği:
+
+     ```ldap
+     (&(objectClass=*)(objectClass=*))(&(objectClass=void)(type=Puma*))
+     ```
+   - OR örneği:
+
+     ```ldap
+     (|(objectClass=void)(objectClass=users))(&(objectClass=void)(type=Puma*))
+     ```
+
+# LDAP Injection – Fixleme
+## Prepared Statements / Parameter Binding
+LDAP kütüphanelerinde hazır metodlar kullanarak kullanıcı girişlerini filtreye doğrudan eklemek yerine bağlamak.
+
+Örnek (Java / JNDI):
+```java
+String filter = "(&(uid={0})(userPassword={1}))";
+ldapContext.search(baseDN, filter, new Object[]{username, password}, controls);
+```
+
