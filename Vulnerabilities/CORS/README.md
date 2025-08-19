@@ -8,7 +8,7 @@ Bir origin şu 3 parçadan oluşur:
 - Host: `example.com`
 - Port: `80`, `443`
 
-**Örnek:**  
+Örnek:
 ![alt text](image.png)
 
 # Preflight Request Nedir?
