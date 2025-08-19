@@ -1,0 +1,2 @@
+# XPATH Injection Nedir
+XPATH Injection, web uygulamalarının XML veri kaynaklarına yaptığı sorguların kullanıcı girdisiyle manipüle edilmesiyle oluşan bir güvenlik açığıdır. SQL Injection’a benzer ama hedef XML/XPATH sorgularıdır. Bu açık, özellikle legacy sistemlerde, SOAP API’lerde veya XML tabanlı login formlarında görülür.
