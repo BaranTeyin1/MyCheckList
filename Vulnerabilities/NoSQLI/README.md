@@ -120,3 +120,13 @@ username=admin&password[$where]=function(){ if(this.password.charAt(0)=='a'){ sl
 ```
 
 Yanıt gecikmesi üzerinden password ilk karakteri çıkarılabilir.
+
+# NoSQL Injection Zafiyetini Önlemek
+## Parametrik Query Kullanımı
+- Kullanıcı girdisini doğrudan sorguya koyma. Mümkünse ORM/ODM (Mongoose, SQLAlchemy benzeri) kullan.
+
+## $where ve JavaScript Execution Devre Dışı Bırakma
+- MongoDB’de --noscripting parametresi kullanılmalı.
+
+## ORM/ODM Doğrulama Mekanizmaları
+- Mongoose gibi ODM’lerde schema validation zorunlu kıl.
