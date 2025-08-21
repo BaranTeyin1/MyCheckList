@@ -17,6 +17,7 @@ Bu repo, uygulama güvenliğinde öğrendiğim şeyleri unutmamak ve  sistematik
 - [LDAP Injection](./Vulnerabilities/LDAP-Injection/README.md)
 - [XPATH Injection](./Vulnerabilities/XPATHI/README.md)
 - [NoSQL Injection](./Vulnerabilities/NoSQLI/README.md)
+- [Prompt Injection](./Vulnerabilities/PromptI/README.md)
 
   ## 📂 Recon
 - [Recon Cheat Sheet](./recon/recon.md)
