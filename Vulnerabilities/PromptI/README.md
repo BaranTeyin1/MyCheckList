@@ -27,3 +27,7 @@ Saldırgan girdiyi doğrudan LLM’e verir. Örn: “Yukarıdaki yönergeleri yo
 
 ## Indirect Prompt Injection:
 Saldırgan, LLM’in okuyacağı veriye kötü niyetli prompt gizler (örneğin bir web sayfası veya forum gönderisi). LLM bu veriyi işlerken saldırganın talimatlarını uygulayabilir. Prompt’lar sadece metinle sınırlı değil, görsellere de gömülebilir.
+
+# Önleme ve Azaltma Yöntemleri
+- Input validation: Bilinen injection örneklerine benzeyen girdileri filtrelemek.
+- Least privilege: LLM ve API’lere en az yetkiyi vermek.
