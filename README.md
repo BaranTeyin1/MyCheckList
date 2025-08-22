@@ -18,6 +18,7 @@ Bu repo, uygulama güvenliğinde öğrendiğim şeyleri unutmamak ve  sistematik
 - [XPATH Injection](./Vulnerabilities/XPATHI/README.md)
 - [NoSQL Injection](./Vulnerabilities/NoSQLI/README.md)
 - [Prompt Injection](./Vulnerabilities/PromptI/README.md)
+- [SSRF](./Vulnerabilities/SSRF/README.md)
 
   ## 📂 Recon
 - [Recon Cheat Sheet](./recon/recon.md)
