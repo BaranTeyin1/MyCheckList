@@ -36,6 +36,7 @@ http://169.254.169.254/latest/meta-data/
 Bu, AWS EC2 meta veri hizmetinden hassas bilgileri alır.
 
 # Filtreleri atlamak
+```
 http://localhost:80
 http://localhost:22
 https://localhost:443
@@ -59,3 +60,13 @@ http://127.0.1
 
 Prefix/Suffix tabanlı bypasslar ve URL manipülasyon teknikleri için:
 - https://portswigger.net/web-security/ssrf/url-validation-bypass-cheat-sheet
+
+# LFI ve SSRF
+SSRF zafiyetlerinde, uygulamaya sağlanan URL’nin bir parçası yerel dosya sistemine erişim için kullanılabilir. Özellikle file:// şeması, web sunucusunun yerel dosyaları okumasına olanak sağlar.
+
+Örnek olarak, sunucu imgUrl parametresini fetch etmek için kullanıyorsa, saldırgan aşağıdaki URL’yi sağlayabilir:
+```
+file:///etc/passwd
+```
+
+Bu, sunucudaki hassas dosyaların içeriğini döndürebilir ve uygulamanın normal işleyişi dışında information disclosure sağlar.
