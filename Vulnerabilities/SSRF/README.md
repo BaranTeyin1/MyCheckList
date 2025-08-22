@@ -70,3 +70,22 @@ file:///etc/passwd
 ```
 
 Bu, sunucudaki hassas dosyaların içeriğini döndürebilir ve uygulamanın normal işleyişi dışında information disclosure sağlar.
+
+# Gopher Protokolü ve SSRF
+Gopher, HTTP’ye benzer şekilde sunucular arasında veri iletimi için kullanılan eski bir protokoldür. SSRF zafiyetlerinde özellikle tehlikelidir, çünkü saldırganlar sadece GET/POST değil, keyfi protokoller ve ham paketler gönderebilir.
+
+Neden tehlikeli:
+- HTTP POST veya diğer protokolleri taklit edebilir.
+- SMTP, Redis, gibi arka uç servisleri ile iletişim kurabilir.
+
+## Örnek kullanım
+Bir SSRF zafiyeti olan uygulama, kullanıcıdan aldığı URL’yi fetch ediyorsa, saldırgan şu URL’yi verebilir:
+```
+gopher://127.0.0.1:6379/_SET%20key%20123
+```
+Bu örnekte:
+- 127.0.0.1:6379 → Redis sunucusu
+- _SET key 123 → Redis komutu, Gopher protokolü üzerinden gönderiliyor
+
+Sunucu bu isteği gönderebilir ve internal servislere komut çalıştırabilir.
+
