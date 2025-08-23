@@ -50,7 +50,7 @@ http://example.com/index.php?page=..///////..////..//////etc/passwd
 http://example.com/index.php?page=/%5C../%5C../%5C../%5C../%5C../%5C../%5C../%5C../%5C../%5C../%5C../etc/passwd
 ```
 
-# LFI Açığının Önlemek
+# LFI Açığını Önlemek
 ### Input Validation & Whitelisting
 Kullanıcıdan gelen dosya adlarını direkt include etme. Sadece izin verilen dosyalar:
 ```php
