@@ -19,6 +19,7 @@ Bu repo, uygulama güvenliğinde öğrendiğim şeyleri unutmamak ve  sistematik
 - [NoSQL Injection](./Vulnerabilities/NoSQLI/README.md)
 - [Prompt Injection](./Vulnerabilities/PromptI/README.md)
 - [SSRF](./Vulnerabilities/SSRF/README.md)
+- [LFI](./Vulnerabilities/LFI/README.md)
 
   ## 📂 Recon
 - [Recon Cheat Sheet](./recon/recon.md)
