@@ -1,0 +1,2 @@
+# Local File Inclusion (LFI) Nedir
+Local File Inclusion, web uygulamalarında kullanıcıdan alınan verilerin dosya yolu olarak işlenmesi sırasında ortaya çıkan bir zafiyetdir. Saldırgan, LFI sayesinde sunucudaki yerel dosyalara erişebilir ve hassas bilgileri elde edebilir.
