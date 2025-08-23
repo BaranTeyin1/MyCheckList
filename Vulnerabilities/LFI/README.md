@@ -56,7 +56,7 @@ Kullanıcıdan gelen dosya adlarını direkt include etme. Sadece izin verilen d
 ```php
 $allowed_pages = ['about', 'contact', 'home'];
 if(in_array($_GET['page'], $allowed_pages)) {
-    include($_GET['page'] . '.php');
+    include($_GET['page']);
 } else {
     echo "Sayfa bulunamadı";
 }
