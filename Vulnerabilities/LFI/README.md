@@ -6,7 +6,7 @@ Local File Inclusion, web uygulamalarında kullanıcıdan alınan verilerin dosy
 <?php
 // index.php
 $page = $_GET['page'];
-include($page . '.php');
+include($page);
 ?>
 ```
 
