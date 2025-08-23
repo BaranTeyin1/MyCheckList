@@ -65,5 +65,5 @@ if(in_array($_GET['page'], $allowed_pages)) {
 ## Dizin Sabitleme (Directory Traversal Protection)
 Kullanıcı inputunu direkt dosya yolu olarak kullanmak yerine, sabit dizinle birleştir:
 ```php
-include(__DIR__ . '/pages/' . basename($_GET['page']) . '.php');
+include(__DIR__ . '/pages/' . basename($_GET['page']));
 ```
