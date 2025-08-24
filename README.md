@@ -20,6 +20,7 @@ Bu repo, uygulama güvenliğinde öğrendiğim şeyleri unutmamak ve  sistematik
 - [Prompt Injection](./Vulnerabilities/PromptI/README.md)
 - [SSRF](./Vulnerabilities/SSRF/README.md)
 - [LFI](./Vulnerabilities/LFI/README.md)
+- [RFI](./Vulnerabilities/RFI/README.md)
 
   ## 📂 Recon
 - [Recon Cheat Sheet](./recon/recon.md)
