@@ -110,7 +110,7 @@ Javascript kodu içeren bir SVG dosyası dahil ederek SSRF'yi bir XSS'ye yüksel
 https://example.com/ssrf.php?url=http://evil.com/poc.svg
 ```
 
-# SSRF Önleme ve Kapatma Yöntemleri
+# SSRF Önleme Yöntemleri
 SSRF zafiyetlerini tamamen önlemek için uygulama seviyesinde birden fazla önlem bir arada uygulanmalıdır:
 1. Kullanıcı Girdilerini Doğrulama
 - Kullanıcıdan gelen URL’leri veya hostname’leri mutlaka whitelist ile kontrol edin.
