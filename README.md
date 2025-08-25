@@ -21,6 +21,7 @@ Bu repo, uygulama güvenliğinde öğrendiğim şeyleri unutmamak ve  sistematik
 - [SSRF](./Vulnerabilities/SSRF/README.md)
 - [LFI](./Vulnerabilities/LFI/README.md)
 - [RFI](./Vulnerabilities/RFI/README.md)
+- [File Upload vulnerability](./Vulnerabilities/File-Upload-vulnerability/README.md)
 
   ## 📂 Recon
 - [Recon Cheat Sheet](./recon/recon.md)

