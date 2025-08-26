@@ -13,3 +13,35 @@ GET /products?id=5 HTTP/1.1
 - GET → HTTP Method
 - /products?id=5 → Path + Query
 - HTTP/1.1 → Protokol versiyonu
+
+### Headers
+Her satır Key: Value formatındadır.
+Önemli olanlar:
+
+Host:
+```
+Host: example.com
+```
+
+HTTP/1.1’de zorunludur. Çünkü bir IP üzerinde birden fazla sanal host olabilir.
+
+Content-Length:
+```
+Content-Length: 42
+```
+
+Body’nin kaç byte olduğunu belirtir.
+
+Transfer-Encoding:
+```
+Transfer-Encoding: chunked
+```
+
+Body’nin parça parça gönderileceğini belirtir. Eğer bu header varsa Content-Length yok sayılır.
+
+Connection:
+```
+Connection: keep-alive
+```
+
+Persistent connection kontrolü. HTTP/1.1’de varsayılan keep-alive’dır.
