@@ -18,28 +18,28 @@ GET /products?id=5 HTTP/1.1
 Her satır Key: Value formatındadır.
 Önemli olanlar:
 
-Host:
+**Host**:
 ```
 Host: example.com
 ```
 
 HTTP/1.1’de zorunludur. Çünkü bir IP üzerinde birden fazla sanal host olabilir.
 
-Content-Length:
+**Content-Length**:
 ```
 Content-Length: 42
 ```
 
 Body’nin kaç byte olduğunu belirtir.
 
-Transfer-Encoding:
+**Transfer-Encoding**:
 ```
 Transfer-Encoding: chunked
 ```
 
 Body’nin parça parça gönderileceğini belirtir. Eğer bu header varsa Content-Length yok sayılır.
 
-Connection:
+**Connection**:
 ```
 Connection: keep-alive
 ```
