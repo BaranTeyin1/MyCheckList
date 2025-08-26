@@ -1,0 +1,2 @@
+#  HTTP Request Smuggling
+HTTP Request Smuggling client ile backend sunucu arasındaki HTTP request parsing farklarını istismar ederek, tek bir HTTP request içerisine smuggled ikinci bir request enjekte etme saldırı tekniğidir. Proxy ile backend, HTTP header’larını farklı yorumladığında ortaya çıkar (özellikle Content-Length ve Transfer-Encoding uyumsuzlukları).
