@@ -45,3 +45,17 @@ Connection: keep-alive
 ```
 
 Persistent connection kontrolü. HTTP/1.1’de varsayılan keep-alive’dır.
+
+### Body
+GET’lerde genelde boş olur. POST/PUT gibi methodlarda data taşır.
+
+Örnek POST request:
+```
+POST /login HTTP/1.1
+Host: example.com
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 27
+Connection: keep-alive
+
+username=admin&pass=123
+```
