@@ -77,3 +77,4 @@ Bazı parametreler response’u etkiler ama cache key normalleştirmede göz ard
 ### Cookies
 Response cookie’ye göre değişir ama cache bunu ayırt etmez.
 
+Eğer response’u etkileyen bir input cache key’e dahil edilmemişse, saldırgan bu input’u kullanarak cache’i zehirleyebilir. Saldırgan unkeyed input ile zararlı response üretir.mCache bu response’u yanlışlıkla tüm kullanıcılar için geçerliymiş gibi saklar. Normal kullanıcı cache’den zehirli response’u alır.
