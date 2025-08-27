@@ -130,3 +130,17 @@ Response:
 HTTP/1.1 200 OK
 <script src="https://evil-user.net/static/analytics.js"></script>
 ```
+
+### Open Redirection
+Request:
+```
+GET /random HTTP/1.1
+Host: innocent-site.com
+X-Forwarded-Proto: http
+```
+
+Response:
+```
+HTTP/1.1 301 moved permanently
+Location: https://innocent-site.com/random
+```
