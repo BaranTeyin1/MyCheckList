@@ -17,3 +17,16 @@ Cache-Control: public, max-age=3600
 ```
 1 saat boyunca herkes için cache’lenebilir.
 
+## Vary
+Cache key oluşturulurken hangi header’ların da hesaba katılacağını söyler.
+
+```
+Vary: Accept-Encoding
+```
+gzip/deflate farkı varsa ayrı ayrı cache’le.
+
+```
+Vary: User-Agent
+```
+
+tarayıcıya göre farklı içerik üretiliyorsa cache ayrı tutulur.
