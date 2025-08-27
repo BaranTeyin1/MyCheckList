@@ -23,6 +23,7 @@ Bu repo, uygulama güvenliğinde öğrendiğim şeyleri unutmamak ve  sistematik
 - [RFI](./Vulnerabilities/RFI/README.md)
 - [File Upload vulnerability](./Vulnerabilities/File-Upload-vulnerability/README.md)
 - [HTTP Request Smuggling](./Vulnerabilities/HRS/README.md)
+- [Web Cache Poisoning](./Vulnerabilities/WCP/README.md)
 
   ## 📂 Recon
 - [Recon Cheat Sheet](./recon/recon.md)
