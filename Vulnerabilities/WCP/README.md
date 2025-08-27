@@ -144,3 +144,11 @@ Response:
 HTTP/1.1 301 moved permanently
 Location: https://innocent-site.com/random
 ```
+
+# Nasıl Önlenir
+- Cache key’i doğru oluştur: Dinamik ve response’u etkileyen tüm header ve parametreleri cache key’e dahil et.
+- Cache-Control ayarlarını dikkatli kullan:
+- Hassas içerik için private veya no-store
+
+CDN/Reverse Proxy kuralları:
+- Özel header veya parametreleri cache dışında bırak veya whitelist ile kontrol et
