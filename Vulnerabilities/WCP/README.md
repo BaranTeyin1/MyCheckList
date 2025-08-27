@@ -1,6 +1,18 @@
 # Web Cache Poisoning
 Web cache poisoning, Web önbelleklerinde değişiklik yaparak zararlı kod çalıştırılmasına olanak sağlayan bir saldırı türüdür.
 
+# Caching Mekanizmaları
+Caching’in temel amacı aynı cevabı tekrar üretmek yerine saklamak ve performans/artırılmış hız sağlamaktır.
+
+## Browser Cache
+-  Kullanıcının kendi tarayıcısında.
+- Cache-Control, ETag, Last-Modified gibi header’larla kontrol edilir.
+
+## Reverse Proxy Cache
+- Kullanıcı ile web server arasında duran cache.
+- En kritik nokta: Buradaki cache genellikle shared  bir kullanıcı için zehirlenen response başka kullanıcılara da sunulur.
+- Web Cache Poisoning saldırılarının asıl hedefi budur.
+
 # HTTP Header Mantığı
 Header’lar, HTTP request ve response’larda veri taşır. Bu veriler, cache mekanizmalarının ve proxy’lerin nasıl davranacağını doğrudan etkiler.
 
