@@ -24,6 +24,7 @@ Bu repo, uygulama güvenliğinde öğrendiğim şeyleri unutmamak ve  sistematik
 - [File Upload vulnerability](./Vulnerabilities/File-Upload-vulnerability/README.md)
 - [HTTP Request Smuggling](./Vulnerabilities/HRS/README.md)
 - [Web Cache Poisoning](./Vulnerabilities/WCP/README.md)
+- [Web Socket Zafiyetleri](./Vulnerabilities/Web-Socket/README.md)
 
   ## 📂 Recon
 - [Recon Cheat Sheet](./recon/recon.md)
