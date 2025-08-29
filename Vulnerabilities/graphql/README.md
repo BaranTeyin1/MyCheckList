@@ -9,4 +9,4 @@ Skaler tip, GraphQL’deki en temel veri tipidir. Bir alan için atanan ilkel (p
 - ID: benzersiz tanımlayıcı
 
 Bu nesne sırasıyla String, String ve Int tipinde üç alana sahiptir:
-![alt text](image.png)
+- ![alt text](image.png)
