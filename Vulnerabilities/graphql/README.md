@@ -27,3 +27,6 @@ query myGetProductQuery {
 ```
 
 Ürün tipinde daha fazla alan bulunuyor olabilir, ancak burada yalnızca adı ve açıklaması istenmiştir. Sadece ihtiyaç duyulan alanların alınabilmesi, GraphQL’in en esnek özelliklerinden biridir.
+
+### Introspection
+Introspection, GraphQL’in bir özelliğidir. Sunucunun şemasını sorgulamamıza ve mevcut tipler, query’ler, mutation’lar hakkında bilgi almamıza izin verir. Ancak bu, ciddi bir information disclosure riskidir. Çünkü saldırgan, API ile nasıl etkileşim kuracağını öğrenebilir.
