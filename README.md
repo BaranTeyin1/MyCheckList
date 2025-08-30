@@ -26,6 +26,7 @@ Bu repo, uygulama güvenliğinde öğrendiğim şeyleri unutmamak ve  sistematik
 - [Web Cache Poisoning](./Vulnerabilities/WCP/README.md)
 - [Web Socket Zafiyetleri](./Vulnerabilities/Web-Socket/README.md)
 - [GraphQL Zafiyetleri](./Vulnerabilities/graphql/README.md)
+- [.NET ViewState deserialization](./Vulnerabilities/viewstate/README.md)
 
   ## 📂 Recon
 - [Recon Cheat Sheet](./recon/recon.md)
