@@ -1,13 +1,42 @@
-# ViewState
-- ViewState sayfanın ve tüm kontrollerinin durumudur. ASP.NET framework tarafından otomatik olarak post işlemleri arasında korunur.
-Bir sayfa istemciye gönderildiğinde, sayfa ve kontrollerin özelliklerindeki değişiklikler belirlenir ve bunlar _VIEWSTATE adlı gizli bir input alanının değerinde saklanır. Sayfa tekrar sunucuya post edildiğinde, _VIEWSTATE alanı HTTP isteğiyle birlikte sunucuya gönderilir.
+# ViewState Nedir?
+ASP.NET sayfalarının ve kontrollerin durum bilgisini saklayan yapıdır. Sunucu, istemci, sunucu arasında _VIEWSTATE hidden input alanı ile taşınır. Serialize edilmiş  veri içerir. ASP.NET tarafından default olarak LosFormatter ile serileştirilir, ObjectStateFormatter ile deserialize edilir.
 
-- Event validation, POST isteğiyle gelen değerlerin bilinen ve geçerli değerler olduğunu kontrol eder. Eğer çalışma zamanı tanımadığı bir değer görürse bir exception fırlatır. Bu parametre de seri hale getirilmiş veriler içerir.
+# Güvenlik Mekanizmaları
+## MAC (Message Authentication Code)
+ViewState’in değiştirilip değiştirilmediğini doğrular. EnableViewStateMac=true ise devrede olur. MAC kapalıysa saldırgan ViewState’i manipüle edebilir.
 
-- Formatters, veriyi bir formattan başka bir formata dönüştürmek için kullanılır. Örneğin, BinaryFormatter, bir nesneyi veya bağlı nesnelerden oluşan bir grafiği binary formatta serileştirir ve deserialize eder.
+## EventValidation
+Sunucuya gönderilen değerlerin beklenen/güvenilir değerlerden olup olmadığını kontrol eder. Kapatılırsa key injection veya postback manipulation gibi saldırılar yapılabilir.
 
-- Gadgets, güvensiz veriler tarafından işlendiğinde kod çalıştırılmasına imkân verebilecek sınıflardır. .NET için bazı örnekler: PSObject, TextFormattingRunProperties, TypeConfuseDelegate.
+# ViewState Deserialization
+Eğer ViewState şifrelenmemiş ve machineKey biliniyorsa / zayıfsa, saldırgan zararlı ViewState payload’ı hazırlayabilir. Bu payload deserialize edilirken çalıştırılır.
 
-- Gadgets, güvensiz veriler tarafından işlendiğinde kod çalıştırılmasına imkân verebilecek sınıflardır. .NET için bazı örnekler: PSObject, TextFormattingRunProperties, TypeConfuseDelegate.
+Saldırgan gadget chain kullanarak zararlı ViewState üretir. Bu payload deserialize edilirken zararlı kod çalıştırılır.
+Örnek:
+```
+ysoserial.exe -f LosFormatter -g TypeConfuseDelegate -o base64 -c "calc.exe"
+```
 
-- ViewState temelde sunucu tarafından üretilir ve “POST” isteklerinde kullanılmak üzere istemciye _VIEWSTATE isimli gizli bir form alanı olarak gönderilir. Daha sonra istemci, POST işlemi sırasında bunu tekrar sunucuya gönderir. ViewState, serileştirilmiş bir veri biçimindedir ve postback sırasında sunucuya gönderildiğinde deserialize edilir. ASP.NET, veriyi byte-stream (bayt akışı) ve tersi arasında serileştirmek/deserileştirmek için farklı formatter kütüphaneleri kullanır: ObjectStateFormatter, LOSFormatter, BinaryFormatter vb. ASP.NET, ViewState’i serileştirmek için LosFormatter kullanır ve bunu istemciye gizli form alanı olarak yollar. İstemciden POST isteğiyle geri geldiğinde ise deserialize işlemi ObjectStateFormatter ile yapılır.
+```
+POST /vulnerable.aspx HTTP/1.1
+Host: vulnerable.com
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 
+
+__VIEWSTATE=/wEPDwUJODg3NzQ2NjQ5ZGQ... (ysoserial.net ile hazırlanmış zararlı payload)
+```
+
+Bu base64 payload, _VIEWSTATE input alanına enjekte edilir.
+
+# ViewState Güvenliği
+MAC’i Açık Tut
+```
+<%@ Page EnableViewStateMac="true" %>
+```
+
+ViewState’i Şifrele
+```
+<%@ Page ViewStateEncryptionMode="Always" %>
+```
+
+
