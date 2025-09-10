@@ -28,6 +28,7 @@ Bu repo, uygulama güvenliğinde öğrendiğim şeyleri unutmamak ve  sistematik
 - [GraphQL Zafiyetleri](./Vulnerabilities/graphql/README.md)
 - [.NET ViewState deserialization](./Vulnerabilities/viewstate/README.md)
 - [IDOR](./Vulnerabilities/IDOR/README.md)
+- [privilege escalation](./Vulnerabilities/privilegeescalation/README.md)
 
   ## 📂 Recon
 - [Recon Cheat Sheet](./recon/recon.md)
