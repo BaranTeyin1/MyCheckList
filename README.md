@@ -30,6 +30,7 @@ Bu repo, uygulama güvenliğinde öğrendiğim şeyleri unutmamak ve  sistematik
 - [IDOR](./Vulnerabilities/IDOR/README.md)
 - [privilege escalation](./Vulnerabilities/privilegeescalation/README.md)
 - [CSRF](./Vulnerabilities/CSRF/README.md)
+- [Authentication Brute Force](./Vulnerabilities/bruteforce/README.md)
 
   ## 📂 Recon
 - [Recon Cheat Sheet](./recon/recon.md)
