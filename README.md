@@ -29,6 +29,7 @@ Bu repo, uygulama güvenliğinde öğrendiğim şeyleri unutmamak ve  sistematik
 - [.NET ViewState deserialization](./Vulnerabilities/viewstate/README.md)
 - [IDOR](./Vulnerabilities/IDOR/README.md)
 - [privilege escalation](./Vulnerabilities/privilegeescalation/README.md)
+- [CSRF](./Vulnerabilities/CSRF/README.md)
 
   ## 📂 Recon
 - [Recon Cheat Sheet](./recon/recon.md)
