@@ -32,6 +32,7 @@ Bu repo, uygulama güvenliğinde öğrendiğim şeyleri unutmamak ve  sistematik
 - [CSRF](./Vulnerabilities/CSRF/README.md)
 - [Authentication Brute Force](./Vulnerabilities/bruteforce/README.md)
 - [2FA Bypass](./Vulnerabilities/2fa/README.md)
+- [Captcha Bypass](./Vulnerabilities/captchabypass/README.md)
 
   ## 📂 Recon
 - [Recon Cheat Sheet](./recon/recon.md)
