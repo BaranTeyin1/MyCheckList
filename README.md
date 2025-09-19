@@ -34,6 +34,6 @@ Bu repo, uygulama güvenliğinde öğrendiğim şeyleri unutmamak ve  sistematik
 - [2FA Bypass](./Vulnerabilities/2fa/README.md)
 - [Captcha Bypass](./Vulnerabilities/captchabypass/README.md)
 - [Race Condition](./Vulnerabilities/racecondition/README.md)
-
+- [Price Manipulation](./Vulnerabilities/pricemanipulation/README.md)
   ## 📂 Recon
 - [Recon Cheat Sheet](./recon/recon.md)
