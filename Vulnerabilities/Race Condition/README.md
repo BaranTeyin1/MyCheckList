@@ -4,6 +4,57 @@ Tek kullanımlık bir hediye kartını tekrar tekrar kullanmak gibi durumlar, ra
 Çakışmanın mümkün olduğu süreye race window denir.
 Diğer mantık hatalarında olduğu gibi, race condition’ın etkisi uygulamaya ve zafiyetin gerçekleştiği spesifik işlevselliğe bağlıdır.
 
-## Single-packet attack
-Web sunucuları, bir isteğin tüm byte’ları iletilmeden veriyi işlemeye başlamaz. Bu nedenle birkaç isteği son byte’ları gönderilmeden ilet, sonra bu son byte’ları paralel olarak göndererek tamamla. Bu teknik, single-packet attack ile geliştirildi; bu yöntem HTTP/2 protokolünü kullanır. HTTP/2’nin sunduğu multiplexing özelliği sayesinde iki tam HTTP isteği tek bir TCP paketinde gönderilebilir. Ancak yalnızca iki isteğin gönderilmesi her zaman yeterli olmayabilir; bu yüzden last-byte sync tekniği hâlâ son byte’ları göndermek için kullanılır. Bu yöntemle elde edilen sonuçlar oldukça etkilidir. Yaklaşık 1 milisaniye içinde sunucuya ulaşacak şekilde aynı anda paralel olarak 20’ye kadar istek göndermeye olanak sağlar.
+# Race Condition Türleri
+## Time-of-Check to Time-of-Use (TOCTOU)
+Kaynağın kontrol edildiği an ile kullanıldığı an arasında bir değişiklik olursa.
+```py
+if balance >= 100:     # check
+    balance -= 100     # use
+```
 
+- Kullanıcı neredeyse aynı anda iki işlem başlatır.
+- Her iki işlem de 100 TL yeterli diye onay alır.
+- Sonuç: balance negatif veya hatalı olur.
+
+## State Race Condition
+Sistem state’i eşzamanlı olarak değiştirildiğinde oluşur.
+```py
+if stock > 0:
+    stock -= 1
+```
+
+- İki kullanıcı aynı anda satın alma işlemi yaparsa:
+- İkisi de stok > 0 kontrolünü geçer.
+- Sonuç: stok 0’ın altına düşebilir veya fazladan ürün satılmış olur.
+
+# Race Condition Önleme Yöntemleri
+## Locking / Mutex
+Bir kaynağa eşzamanlı erişimi engellemek için lock mekanizması kullanılır. Tek seferde sadece bir işlem kaynağa erişebilir.
+```py
+from threading import Lock
+
+balance_lock = Lock()
+
+def transfer(amount):
+    with balance_lock:
+        if balance >= amount:
+            balance -= amount
+```
+
+## Database Transactions
+Veritabanı düzeyinde atomic, consistent, isolated, durable (ACID) özelliklerini kullanmak. Transaction sırasında kaynak başka işlem tarafından değiştirilemez.
+```sql
+START TRANSACTION;
+
+SELECT balance FROM accounts WHERE id=1 FOR UPDATE;
+
+UPDATE accounts SET balance = balance - 100 WHERE id=1;
+
+COMMIT;
+```
+
+## Atomic Operations
+Kaynağın tek bir işlemle değiştirilmesi. Ara adım olmadan işlemin tamamlanması.
+```sql
+UPDATE account SET balance = balance - 100 WHERE id=1 AND balance >= 100;
+```
