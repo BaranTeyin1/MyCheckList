@@ -35,5 +35,6 @@ Bu repo, uygulama güvenliğinde öğrendiğim şeyleri unutmamak ve  sistematik
 - [Captcha Bypass](./Vulnerabilities/captchabypass/README.md)
 - [Race Condition](./Vulnerabilities/racecondition/README.md)
 - [Price Manipulation](./Vulnerabilities/pricemanipulation/README.md)
+- [Sensitive Data GET](./Vulnerabilities/SensitiveDataGET/README.md)
   ## 📂 Recon
 - [Recon Cheat Sheet](./recon/recon.md)
